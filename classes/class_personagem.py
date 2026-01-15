@@ -1,7 +1,7 @@
 import os
 
 class Personagem:
-    def __init__(self, classe, vida, armas, defesa, arma_escolhida=None):
+    def __init__(self, classe=None, vida=None, armas=None, defesa=None, arma_escolhida=None):
         self.classe = classe
         self.vida = vida
         self.armas = armas

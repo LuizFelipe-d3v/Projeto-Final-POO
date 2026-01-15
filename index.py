@@ -1,7 +1,9 @@
 # Inicio do projeto 
 import os
-from class_arma import Arma
-from class_personagem import Personagem
+from classes.class_arma import Arma
+from classes.class_personagem import Personagem
+from classes.class_inimigo import Inimigo
+from classes.class_batalha import Batalha
 
 print("-----------------")  
 print("BEM VINDO AO JOGO")  
@@ -17,6 +19,9 @@ print("")
 classe = input("Faça sua escolha: ")
 os.system('cls')
 
+personagem_escolhido = Personagem()
+
+
 match classe:
     case "1": 
         print("Você escolheu a classe Mago!")
@@ -25,10 +30,10 @@ match classe:
         Varinha = Arma("Varinha", 3)
         lista_armas_mago = [Cajado, Varinha]
 
-        Mago = Personagem("Mago", 10, lista_armas_mago, 14)
-        Mago.apresentar()       
-        Mago.escolher_arma()
-
+        personagem_escolhido = Personagem("Mago", 100, lista_armas_mago, 8)
+        personagem_escolhido.apresentar()       
+        personagem_escolhido.escolher_arma()
+        
     case "2":
         print("Você escolheu a classe Assasino! A furtividade é sua maior arma.")
 
@@ -36,9 +41,9 @@ match classe:
         Rapiera = Arma("Rapiera", 3)
         lista_armas_assasino = [Adagas, Rapiera]
 
-        Assasino = Personagem("Assasino", 14, lista_armas_assasino, 16)
-        Assasino.apresentar()
-        Assasino.escolher_arma()
+        personagem_escolhido = Personagem("Assasino", 14, lista_armas_assasino, 16)
+        personagem_escolhido.apresentar()
+        personagem_escolhido.escolher_arma()
 
     case "3":
         print("Você escolheu a classe Tank! Sua resistência é imbatível.")
@@ -47,9 +52,9 @@ match classe:
         Escudo = Arma("Escudo", 6)
         lista_armas_tank = [Manoplas, Escudo]
 
-        Tank = Personagem("Tank", 30, lista_armas_tank, 19)
-        Tank.apresentar()
-        Tank.escolher_arma()
+        personagem_escolhido = Personagem("Tank", 30, lista_armas_tank, 19)
+        personagem_escolhido.apresentar()
+        personagem_escolhido.escolher_arma()
 
     case "4":
         print("Você escolheu a classe Paladino! A justiça está do seu lado.")
@@ -58,9 +63,9 @@ match classe:
         Alabarda = Arma("Alabarda", 3)
         lista_armas_paladino = [Espada_Longa, Alabarda]
 
-        Paladino = Personagem("Paladino", 24, lista_armas_paladino, 17)
-        Paladino.apresentar()
-        Paladino.escolher_arma()
+        personagem_escolhido = Personagem("Paladino", 24, lista_armas_paladino, 17)
+        personagem_escolhido.apresentar()
+        personagem_escolhido.escolher_arma()
         
     case "5":
         print("Você escolheu a classe Barbaro! A força bruta é sua especialidade.")
@@ -69,7 +74,13 @@ match classe:
         Lanca = Arma("Lança", 6)
         lista_armas_barbaro = [Machado, Lanca]
 
-        Barbaro = Personagem("Bárbaro", 22, lista_armas_barbaro, 16)
-        Barbaro.apresentar()
-        Barbaro.escolher_arma()
+        personagem_escolhido = Personagem("Bárbaro", 22, lista_armas_barbaro, 16)
+        personagem_escolhido.apresentar()
+        personagem_escolhido.escolher_arma()
         
+# Iniciar batalha       
+Mau = Inimigo("Mau", 15, "Mão", 25, 10)
+Batalhar = Batalha(personagem_escolhido, Mau)
+
+print(Mau.get_dano)
+Batalhar.inimigo_bater(Mau.get_dano, personagem_escolhido.vida, personagem_escolhido.defesa)
