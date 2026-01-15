@@ -1,13 +1,25 @@
 import os
-
 class Personagem:
-    def __init__(self, classe=None, vida=None, armas=None, defesa=None, arma_escolhida=None):
-        self.classe = classe
+    def __init__(self, vida=None, defesa=None):
         self.vida = vida
-        self.armas = armas
         self.defesa = defesa
+    
+    def estar_vivo(self):
+        return self.vida > 0
+    
+    def receber_dano(self, dano):
+        self.vida -= dano
+        if self.vida < 0:
+            self.vida = 0
+    
+            
+class Jogador(Personagem):
+    def __init__(self, classe=None, vida=None, armas=None, defesa=None, arma_escolhida=None):
+        super().__init__(vida, defesa)
+        self.classe = classe
+        self.armas = armas
         self.arma_escolhida = arma_escolhida
-        
+
     def apresentar(self):
         print("")
         print("------------STATUS------------")
@@ -34,3 +46,10 @@ class Personagem:
             case "2":
                 self.arma_escolhida = self.armas[1]
                 print(f"Voce escolheu: {self.arma_escolhida.nome}")
+
+class Inimigo(Personagem):
+    def __init__(self, vida=None, defesa=None, dano=None, nome=None):
+        super().__init__(vida, defesa)
+        self.dano = dano
+        self.nome = nome
+        

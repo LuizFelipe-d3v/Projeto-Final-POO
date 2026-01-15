@@ -1,8 +1,8 @@
 # Inicio do projeto 
 import os
 from classes.class_arma import Arma
-from classes.class_personagem import Personagem
-from classes.class_inimigo import Inimigo
+from classes.class_personagens import Jogador
+from classes.class_personagens import Inimigo
 from classes.class_batalha import Batalha
 
 print("-----------------")  
@@ -19,7 +19,7 @@ print("")
 classe = input("Faça sua escolha: ")
 os.system('cls')
 
-personagem_escolhido = Personagem()
+personagem_escolhido = Jogador()
 
 
 match classe:
@@ -30,7 +30,7 @@ match classe:
         Varinha = Arma("Varinha", 3)
         lista_armas_mago = [Cajado, Varinha]
 
-        personagem_escolhido = Personagem("Mago", 100, lista_armas_mago, 8)
+        personagem_escolhido = Jogador("Mago", 100, lista_armas_mago, 8)
         personagem_escolhido.apresentar()       
         personagem_escolhido.escolher_arma()
         
@@ -41,7 +41,7 @@ match classe:
         Rapiera = Arma("Rapiera", 3)
         lista_armas_assasino = [Adagas, Rapiera]
 
-        personagem_escolhido = Personagem("Assasino", 14, lista_armas_assasino, 16)
+        personagem_escolhido = Jogador("Assasino", 14, lista_armas_assasino, 16)
         personagem_escolhido.apresentar()
         personagem_escolhido.escolher_arma()
 
@@ -52,7 +52,7 @@ match classe:
         Escudo = Arma("Escudo", 6)
         lista_armas_tank = [Manoplas, Escudo]
 
-        personagem_escolhido = Personagem("Tank", 30, lista_armas_tank, 19)
+        personagem_escolhido = Jogador("Tank", 30, lista_armas_tank, 19)
         personagem_escolhido.apresentar()
         personagem_escolhido.escolher_arma()
 
@@ -63,7 +63,7 @@ match classe:
         Alabarda = Arma("Alabarda", 3)
         lista_armas_paladino = [Espada_Longa, Alabarda]
 
-        personagem_escolhido = Personagem("Paladino", 24, lista_armas_paladino, 17)
+        personagem_escolhido = Jogador("Paladino", 24, lista_armas_paladino, 17)
         personagem_escolhido.apresentar()
         personagem_escolhido.escolher_arma()
         
@@ -74,12 +74,12 @@ match classe:
         Lanca = Arma("Lança", 6)
         lista_armas_barbaro = [Machado, Lanca]
 
-        personagem_escolhido = Personagem("Bárbaro", 22, lista_armas_barbaro, 16)
+        personagem_escolhido = Jogador("Bárbaro", 22, lista_armas_barbaro, 16)
         personagem_escolhido.apresentar()
         personagem_escolhido.escolher_arma()
         
 # Iniciar batalha       
-Mau = Inimigo("Mau", 15, "Mão", 25, 10)
+Mau = Inimigo(15, 25, 10, "Mau")
 Batalhar = Batalha(personagem_escolhido, Mau)
 
 # print(Mau.get_dano)
