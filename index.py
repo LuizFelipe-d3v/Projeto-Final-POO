@@ -82,5 +82,5 @@ match classe:
 Mau = Inimigo("Mau", 15, "Mão", 25, 10)
 Batalhar = Batalha(personagem_escolhido, Mau)
 
-print(Mau.get_dano)
-Batalhar.inimigo_bater(Mau.get_dano, personagem_escolhido.vida, personagem_escolhido.defesa)
+# print(Mau.get_dano)
+Batalhar.inimigo_bater(Mau.dano, personagem_escolhido.vida, personagem_escolhido.defesa)
