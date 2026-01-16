@@ -60,6 +60,7 @@ class Jogador(Personagem):
     
     def estar_vivo(self):
         return super().estar_vivo()
+
 class Inimigo(Personagem):
     def __init__(self, vida=None, defesa=None, dano=None, nome=None):
         super().__init__(vida, defesa)
