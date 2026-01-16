@@ -4,6 +4,7 @@ from classes.class_arma import Arma
 from classes.class_personagens import Jogador
 from classes.class_personagens import Inimigo
 from classes.class_batalha import Batalha
+from classes.class_historia import Historia
 
 print("-----------------")  
 print("BEM VINDO AO JOGO")  
@@ -77,10 +78,12 @@ match classe:
         personagem_escolhido = Jogador("Bárbaro", 22, lista_armas_barbaro, 16)
         personagem_escolhido.apresentar()
         personagem_escolhido.escolher_arma()
-        
+
+historia = Historia()   
+historia.iniciarHistoria()
+
 # Iniciar batalha       
-Mau = Inimigo(15, 25, 10, "Mau")
+Mau = Inimigo(15, 10, 10, "GOBLIM")
 Batalhar = Batalha(personagem_escolhido, Mau)
 
-# print(Mau.get_dano)
-Batalhar.inimigo_bater(Mau.dano, personagem_escolhido.vida, personagem_escolhido.defesa)
+Batalhar.combate(personagem_escolhido, Mau, personagem_escolhido.arma_escolhida.dano, Mau.dano, personagem_escolhido.defesa, Mau.defesa)
