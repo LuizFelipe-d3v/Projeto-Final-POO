@@ -9,7 +9,33 @@ class Batalha:
 
     def combate(self, personagem, inimigo, dano_personagem, dano_inimigo, defesa_personagem, defesa_inimigo):
         print("A BATALHA COMEÇOU")
-        numero = random.randint(1, 20)
+        while personagem.estar_vivo() and inimigo.estar_vivo():
+            print("O PERSONAGEM VAI ATACAR")
+            numero = random.randint(1, 20)
+            print(f"Número do ataque: {numero}")
+            if numero >= defesa_inimigo:
+                inimigo.receber_dano(dano_personagem)
+                print(f"O inimigo recebeu {dano_personagem} de dano.")
+            else:
+                print("O PERSONAGEM ERROU O GOLPE")
+            
+            if not inimigo.estar_vivo():
+                print("O INIMIGO FOI DERROTADO!")
+                break
+
+            print("O INIMIGO VAI ATACAR")
+            numero = random.randint(1, 20)
+            print(f"Número do ataque: {numero}")
+            if numero >= defesa_personagem:
+                personagem.receber_dano(dano_inimigo)
+                print(f"O personagem recebeu {dano_inimigo} de dano.")
+            else:
+                print("O INIMIGO ERROU O GOLPE")
+            
+            if not personagem.estar_vivo():
+                print("O PERSONAGEM FOI DERROTADO!")
+                break
+       
         
 
     # def inimigo_bater(self, dano_inimigo, vida, defesa):

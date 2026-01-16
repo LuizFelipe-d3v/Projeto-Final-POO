@@ -11,8 +11,12 @@ class Personagem:
         self.vida -= dano
         if self.vida < 0:
             self.vida = 0
+        
+        print(f"Vida restante: {self.vida}")
     
-            
+    def atacar(self, alvo, dano):
+        alvo.receber_dano(dano)
+                   
 class Jogador(Personagem):
     def __init__(self, classe=None, vida=None, armas=None, defesa=None, arma_escolhida=None):
         super().__init__(vida, defesa)
@@ -46,10 +50,28 @@ class Jogador(Personagem):
             case "2":
                 self.arma_escolhida = self.armas[1]
                 print(f"Voce escolheu: {self.arma_escolhida.nome}")
-
+    
+    def atacar(self, alvo):
+        dano = self.arma_escolhida.dano
+        super().atacar(alvo, dano)
+    
+    def receber_dano(self, dano):
+        return super().receber_dano(dano)
+    
+    def estar_vivo(self):
+        return super().estar_vivo()
 class Inimigo(Personagem):
     def __init__(self, vida=None, defesa=None, dano=None, nome=None):
         super().__init__(vida, defesa)
         self.dano = dano
         self.nome = nome
+    
+    def atacar(self, alvo):
+        super().atacar(alvo, self.dano)
+    
+    def receber_dano(self, dano):
+        return super().receber_dano(dano)
+    
+    def estar_vivo(self):
+        return super().estar_vivo()
         
