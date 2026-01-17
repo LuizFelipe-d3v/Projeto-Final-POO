@@ -9,19 +9,16 @@ from classes.class_historia import Historia
 print("-----------------")  
 print("BEM VINDO AO JOGO")  
 print("-----------------")  
-print("")
-print("ESCOLHA SUA CLASSE:")
+print("\nESCOLHA SUA CLASSE:")
 print("1 - Mago")
 print("2 - Assasino")
 print("3 - Tank")
 print("4 - Paladino")
 print("5 - Barbaro")
-print("")
-classe = input("Faça sua escolha: ")
+classe = input("\nFaça sua escolha: ")
 os.system('cls')
 
 personagem_escolhido = Jogador()
-
 
 match classe:
     case "1": 
@@ -33,8 +30,7 @@ match classe:
 
         personagem_escolhido = Jogador("Mago", 100, lista_armas_mago, 8)
         personagem_escolhido.apresentar()       
-        personagem_escolhido.escolher_arma()
-        
+        personagem_escolhido.escolher_arma()      
     case "2":
         print("Você escolheu a classe Assasino! A furtividade é sua maior arma.")
 
@@ -45,7 +41,6 @@ match classe:
         personagem_escolhido = Jogador("Assasino", 14, lista_armas_assasino, 16)
         personagem_escolhido.apresentar()
         personagem_escolhido.escolher_arma()
-
     case "3":
         print("Você escolheu a classe Tank! Sua resistência é imbatível.")
 
@@ -56,7 +51,6 @@ match classe:
         personagem_escolhido = Jogador("Tank", 30, lista_armas_tank, 19)
         personagem_escolhido.apresentar()
         personagem_escolhido.escolher_arma()
-
     case "4":
         print("Você escolheu a classe Paladino! A justiça está do seu lado.")
 
@@ -67,7 +61,6 @@ match classe:
         personagem_escolhido = Jogador("Paladino", 24, lista_armas_paladino, 17)
         personagem_escolhido.apresentar()
         personagem_escolhido.escolher_arma()
-        
     case "5":
         print("Você escolheu a classe Barbaro! A força bruta é sua especialidade.")
 
@@ -78,12 +71,18 @@ match classe:
         personagem_escolhido = Jogador("Bárbaro", 22, lista_armas_barbaro, 16)
         personagem_escolhido.apresentar()
         personagem_escolhido.escolher_arma()
+    case _:
+        while True:
+            comando = input("\nEscolha uma alternativa válida: ")
+            if comando == "1" or comando == "2" or comando == "3" or comando == "4" or comando == "5":
+                break
 
+# História
 historia = Historia()   
 historia.iniciarHistoria()
 
-# Iniciar batalha       
-Mau = Inimigo(15, 10, 10, "GOBLIM")
-Batalhar = Batalha(personagem_escolhido, Mau)
+# Batalha       
+# Mau = Inimigo(15, 10, 10, "GOBLIM")
+# Batalhar = Batalha(personagem_escolhido, Mau)
 
-Batalhar.combate(personagem_escolhido, Mau, personagem_escolhido.arma_escolhida.dano, Mau.dano, personagem_escolhido.defesa, Mau.defesa)
+# Batalhar.combate(personagem_escolhido, Mau, personagem_escolhido.arma_escolhida.dano, Mau.dano, personagem_escolhido.defesa, Mau.defesa)

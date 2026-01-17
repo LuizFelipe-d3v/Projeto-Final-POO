@@ -25,12 +25,10 @@ class Jogador(Personagem):
         self.arma_escolhida = arma_escolhida
 
     def apresentar(self):
-        print("")
-        print("------------STATUS------------")
+        print("\n------------STATUS------------")
         print(f"Vida: {self.vida}")
         print(f"Defesa: {self.defesa}")
-        print("")
-        print("ESTÁ PRONTO PARA ESCOLHER SEU EQUIPAMENTO? Aperte qualquer tecla para seguir...")
+        print("\nESTÁ PRONTO PARA ESCOLHER SEU EQUIPAMENTO? Aperte qualquer tecla para seguir...")
         n = input("")
         os.system('cls')
         
@@ -50,6 +48,12 @@ class Jogador(Personagem):
             case "2":
                 self.arma_escolhida = self.armas[1]
                 print(f"Voce escolheu: {self.arma_escolhida.nome}")
+            case _:
+                while True:
+                    comando = input("\nEscolha uma alternativa válida: ")
+                    if comando == "1" or comando == "2":
+                        break
+
     
     def atacar(self, alvo):
         dano = self.arma_escolhida.dano
