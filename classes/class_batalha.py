@@ -7,13 +7,11 @@ class Batalha:
         self.jogador2 = jogador2
 
     def combate(self, personagem, inimigo, dano_personagem, dano_inimigo, defesa_personagem, defesa_inimigo):
-        print("")
-        print("-------- PREPARE-SE A BATALHA IRÁ COMEÇAR! --------")
+        print("\n-------- PREPARE-SE A BATALHA IRÁ COMEÇAR! --------")
         time.sleep(2)
 
         while personagem.estar_vivo() and inimigo.estar_vivo():
-            print("")
-            print("----------- SEU TURNO -----------")
+            print("\n----------- SEU TURNO -----------")
             time.sleep(0.8)
 
             blRolarDados = input("Pressione ENTER para rolar os dados.")
@@ -34,11 +32,10 @@ class Batalha:
             time.sleep(1)
 
             if not inimigo.estar_vivo():
-                print(f"💀 O {inimigo.nome} FOI DERROTADO!")
+                print(f"\n💀 O {inimigo.nome} FOI DERROTADO!")
                 break
 
-            print("")
-            print(f"----------- TURNO DO {inimigo.nome} -----------")
+            print(f"\n----------- TURNO DO {inimigo.nome} -----------")
             time.sleep(0.8)
 
             print("ROLANDO OS DADOS...")
@@ -58,5 +55,5 @@ class Batalha:
             time.sleep(1)
 
             if not personagem.estar_vivo():
-                print("☠️ VOCÊ FOI DERROTADO!")
+                print("\n☠️ VOCÊ FOI DERROTADO!")
                 break
