@@ -2,9 +2,7 @@
 import os
 from classes.class_arma import Arma
 from classes.class_personagens import Jogador
-from classes.class_personagens import Inimigo
-from classes.class_batalha import Batalha
-from classes.class_historia import Historia
+from classes.class_historia import Historia 
 
 print("-----------------")  
 print("BEM VINDO AO JOGO")  
@@ -78,11 +76,6 @@ match classe:
                 break
 
 # História
-historia = Historia()   
+historia = Historia(personagem_escolhido)   
 historia.iniciarHistoria()
 
-# Batalha       
-# Mau = Inimigo(15, 10, 10, "GOBLIM")
-# Batalhar = Batalha(personagem_escolhido, Mau)
-
-# Batalhar.combate(personagem_escolhido, Mau, personagem_escolhido.arma_escolhida.dano, Mau.dano, personagem_escolhido.defesa, Mau.defesa)
