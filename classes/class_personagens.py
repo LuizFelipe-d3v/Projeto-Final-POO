@@ -1,4 +1,6 @@
 import os
+from classes.class_batalha import Batalha
+
 class Personagem:
     def __init__(self, vida=None, defesa=None):
         self.vida = vida
@@ -7,15 +9,25 @@ class Personagem:
     def estar_vivo(self):
         return self.vida > 0
     
-    def receber_dano(self, dano):
+    def receber_dano(self, dano, dado, numero_jogador):
+        if(dado == 20):
+            dano = dano * 2
+            print("💥 CRÍTICO! 💥") 
+
         self.vida -= dano
         if self.vida < 0:
             self.vida = 0
         
+        if(numero_jogador == 1):
+            print(f"O inimigo recebeu {dano} de dano.")
+        else:
+            print(f"Você recebeu {dano} de dano.")
+
         print(f"Vida restante: {self.vida}")
     
     def atacar(self, alvo, dano):
         alvo.receber_dano(dano)
+
                    
 class Jogador(Personagem):
     def __init__(self, classe=None, vida=None, armas=None, defesa=None, arma_escolhida=None):
@@ -59,8 +71,8 @@ class Jogador(Personagem):
         dano = self.arma_escolhida.dano
         super().atacar(alvo, dano)
     
-    def receber_dano(self, dano):
-        return super().receber_dano(dano)
+    def receber_dano(self, dano, dado, numero_jogador):
+        return super().receber_dano(dano, dado, numero_jogador)
     
     def estar_vivo(self):
         return super().estar_vivo()
@@ -74,8 +86,8 @@ class Inimigo(Personagem):
     def atacar(self, alvo):
         super().atacar(alvo, self.dano)
     
-    def receber_dano(self, dano):
-        return super().receber_dano(dano)
+    def receber_dano(self, dano, dado, numero_jogador):
+        return super().receber_dano(dano, dado, numero_jogador),
     
     def estar_vivo(self):
         return super().estar_vivo()
