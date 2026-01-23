@@ -1,9 +1,9 @@
 # Inicio do projeto 
 import os
-from classes.class_arma import Arma
-from classes.class_personagens import Jogador
-from classes.class_personagens import Inimigo
-from classes.class_batalha import Batalha
+from classes.itens import Arma
+from classes.personagens import Jogador
+from classes.personagens import Inimigo
+from classes.batalha import Batalha
 
 print("-----------------")  
 print("BEM VINDO AO JOGO")  
