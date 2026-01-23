@@ -1,5 +1,6 @@
 import time
 import random
+import os
 
 class Batalha:
     def __init__(self, jogador1, jogador2): 
@@ -7,6 +8,7 @@ class Batalha:
         self.jogador2 = jogador2
 
     def combate(self, personagem, inimigo, dano_personagem, dano_inimigo, defesa_personagem, defesa_inimigo):
+        os.system('cls')
         print("\n-------- PREPARE-SE A BATALHA IRÁ COMEÇAR! --------")
         time.sleep(2)
 
@@ -17,15 +19,14 @@ class Batalha:
             blRolarDados = input("Pressione ENTER para rolar os dados.")
             print("ROLANDO OS DADOS...")
             time.sleep(1)
-            numero = random.randint(1, 20)
+            numero = random.randint(19, 20)
             print(f"Número do ataque: {numero}")
             time.sleep(0.8)
 
             if numero >= defesa_inimigo:
                 print("ATACANDO...")
                 time.sleep(0.8)
-                print(f"O {inimigo.nome} recebeu {dano_personagem} de dano.")
-                inimigo.receber_dano(dano_personagem)
+                inimigo.receber_dano(dano_personagem, numero, 1)
             else:
                 print("VOCÊ ERROU O GOLPE")
 
@@ -40,20 +41,19 @@ class Batalha:
 
             print("ROLANDO OS DADOS...")
             time.sleep(1)
-            numero = random.randint(1, 20)
+            numero = random.randint(19, 20)
             print(f"Número do ataque: {numero}")
             time.sleep(1)
 
             if numero >= defesa_personagem:
                 print(f"O {inimigo.nome} VAI ATACAR...")
                 time.sleep(0.8)
-                print(f"Você recebeu {dano_inimigo} de dano.")
-                personagem.receber_dano(dano_inimigo)
+                personagem.receber_dano(dano_inimigo, numero, 2)
             else:
                 print(f"O {inimigo.nome} ERROU O GOLPE")
 
             time.sleep(1)
 
             if not personagem.estar_vivo():
-                print("\n☠️ VOCÊ FOI DERROTADO!")
+                print("\n☠️  VOCÊ FOI DERROTADO!")
                 break
