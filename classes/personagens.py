@@ -6,13 +6,13 @@ import questionary
 class Personagem(ABC):
     
     def __init__(self, vida=None, defesa=None, armas=None, habilidades=None):
-        self.__vida = vida
-        self.__defesa = defesa
-        self.__vida_maxima = vida    
+        self._vida = vida
+        self._defesa = defesa
+        self._vida_maxima = vida    
     
     @property
     def vida_maxima(self):
-        return self.__vida_maxima
+        return self._vida_maxima
 
     @property
     def vida(self):
@@ -20,34 +20,31 @@ class Personagem(ABC):
     
     @vida.setter
     def vida(self, valor):
-        self.__vida += valor
+        self._vida += valor
 
-        if self.__vida < 0:
-            self.__vida = 0
+        if self._vida < 0:
+            self._vida = 0
 
-        if self.__vida > self.__vida_maxima:
-            self.__vida = self.__vida_maxima
-
+        if self._vida > self._vida_maxima:
+            self._vida = self._vida_maxima
 
     @property
     def defesa(self):
         return self.__defesa
 
-    @abstractmethod
     def estar_vivo(self):
-        return self.__vida > 0
+        return self._vida > 0
     
-    @abstractmethod
     def receber_dano(self, dano):
-        self.__vida -= dano
-        if self.__vida < 0:
-            self.__vida = 0
+        self._vida -= dano
+        if self._vida < 0:
+            self._vida = 0
         
         print(f"Vida restante: {self.vida}")
     
     @abstractmethod
     def atacar(self, alvo, dano):
-        alvo.receber_dano(dano)
+        pass
                    
 class Jogador(Personagem):
     def __init__(self, classe=None, vida=None, armas=None, defesa=None, arma_escolhida=None, habilidades=None, mana=None):
@@ -104,19 +101,15 @@ class Jogador(Personagem):
             print(f"\nVocê usou a habilidade {habilidade.nome} causando {habilidade.dano} de dano!")
         else:
             print("\nMana insuficiente para usar a habilidade.")
-
+    
+    def receber_dano(self, dano):
+        print("\nVocê foi atingido!")
+        return super().receber_dano(dano)
     
     def atacar(self, alvo):
         dano = self.arma_escolhida.dano
         super().atacar(alvo, dano)
     
-    def receber_dano(self, dano):
-        return super().receber_dano(dano)
-    
-    def estar_vivo(self):
-        return super().estar_vivo()
-
-
 class Inimigo(Personagem):
     def __init__(self, vida=None, defesa=None, dano=None, nome=None):
         super().__init__(vida, defesa)
@@ -124,14 +117,13 @@ class Inimigo(Personagem):
         self.nome = nome
     
     def atacar(self, alvo):
-        super().atacar(alvo, self.dano)
+        print(f"\nO {self.nome} avança para atacar!")
+        alvo.receber_dano(self.dano)
     
     def receber_dano(self, dano):
-        return super().receber_dano(dano)
+        print(f"O inimigo {self.nome} foi atingido!")
+        super().receber_dano(dano)
     
-    def estar_vivo(self):
-        return super().estar_vivo()
-
 class Habilidade:
     def __init__(self, nome: str, descricao: str, dano: int, custo_mana: int):
         self.nome = nome
@@ -145,7 +137,7 @@ class Habilidade:
     def executar(self, jogador, inimigo):
         if self.pode_usar(jogador):
             jogador.mana -= self.custo_mana
-            inimigo.vida -= self.dano
+            inimigo.receber_dano(self.dano)
             return True
-        return False
+        return False 
         

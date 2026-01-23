@@ -1,4 +1,5 @@
-class IItem:
+from abc import ABC
+class IItem (ABC):
     def __init__(self, nome):
         self.nome = nome    
     
