@@ -13,7 +13,14 @@ class Historia:
     # Fluxo de escolha porta antiga
     def _escolherPortaAntiga(self):
         os.system('cls')
-        self.digitar("No fundo da sala, uma figura de estatura média se destaca na penumbra...")
+
+        self.digitar("Você se aproxima da porta antiga com cautela, pousa a mão sobre a madeira desgastada e tenta, de alguma forma, forçar sua abertura..." \
+        "\nAo entrar na sala, você se depara, ao fundo, com uma figura de estatura média que se destaca na penumbra..." \
+        "\nSua pele esverdeada reflete a pouca luz, e em uma das mãos ela segura uma lâmina curta e gasta..." \
+        "\nÀ medida que você se aproxima, a criatura se move — é um goblin..." \
+        "\nO goblin solta um rosnado baixo, assume uma postura agressiva e ergue a arma..." \
+        "\nVocê se prepara para o combate.")
+
         time.sleep(2)
         self.digitar("\nSua pele esverdeada reflete a pouca luz, e em uma das mãos ela segura uma lâmina curta e gasta...")
         time.sleep(2)
@@ -32,7 +39,11 @@ class Historia:
         time.sleep(0.8)
         print("-------INÍCIO DA HISTÓRIA-------")
         time.sleep(0.8)
-        self.digitar("\nVocê desperta com a cabeça latejando em uma caverna úmida e parcialmente iluminada...")
+        self.digitar("\nVocê desperta com a cabeça latejando em uma caverna úmida e parcialmente iluminada..." \
+        "\nO silêncio é quebrado apenas pelo eco distante de gotas caindo..." \
+        "\nÀ sua esquerda, uma porta antiga e desgastada parece guardar segredos esquecidos..." \
+        "\nÀ sua direita, uma passagem estreita se estende pela escuridão, convidando — ou ameaçando — quem ousar seguir adiante..." \
+        "\n\n1 - Porta Antiga  2 - Passagem Estreita")
         time.sleep(1)
         self.digitar("\nO silêncio é quebrado apenas pelo eco distante de gotas caindo...")
         time.sleep(1)

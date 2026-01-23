@@ -1,22 +1,20 @@
 # Inicio do projeto 
 import os
-from classes.class_arma import Arma
-from classes.class_personagens import Jogador
-from classes.class_personagens import Inimigo
-from classes.class_batalha import Batalha
-from classes.class_historia import Historia
+from classes.itens import Arma
+from classes.personagens import Jogador
+from classes.personagens import Inimigo
+from classes.batalha import Batalha
+from classes.historia import Historia
+import questionary
 
-print("-----------------")  
-print("BEM VINDO AO JOGO")  
-print("-----------------")  
-print("\nESCOLHA SUA CLASSE:")
-print("1 - Mago")
-print("2 - Assasino")
-print("3 - Tank")
-print("4 - Paladino")
-print("5 - Barbaro")
-classe = input("\nFaça sua escolha: ")
-os.system('cls')
+
+
+classe = questionary.select(
+    "Escolha sua classe:",
+    choices=["Mago", "Assassino", "Tank", "Paladino", "Bárbaro"]
+).ask()
+
+os.system('cls' if os.name == 'nt' else 'clear')
 
 personagem_escolhido = Jogador()
 
