@@ -2,8 +2,6 @@
 import os
 from classes.itens import Arma
 from classes.personagens import Jogador
-from classes.personagens import Inimigo
-from classes.batalha import Batalha
 from classes.historia import Historia
 import questionary
 
