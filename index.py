@@ -4,17 +4,29 @@ from classes.itens import Arma
 from classes.personagens import Jogador
 from classes.historia import Historia
 import questionary
-
+from questionary import Choice
 
 
 classe = questionary.select(
     "Escolha sua classe:",
-    choices=["Mago", "Assassino", "Tank", "Paladino", "Bárbaro"]
+    choices=[
+        Choice("🧙  Mago", value="1"),
+        Choice("🗡️  Assassino", value="2"),
+        Choice("🛡️  Tank", value="3"),
+        Choice("⚔️  Paladino", value="4"),
+        Choice("🔥  Bárbaro", value="5"),
+    ]
 ).ask()
+
+
+if classe is None:
+    print("Escolha cancelada. Saindo do jogo...")
+    exit()
+
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
-personagem_escolhido = Jogador()
+# personagem_escolhido = Jogador()
 
 match classe:
     case "1": 
@@ -67,14 +79,9 @@ match classe:
         personagem_escolhido = Jogador("Bárbaro", 22, lista_armas_barbaro, 16)
         personagem_escolhido.apresentar()
         personagem_escolhido.escolher_arma()
-    case _:
-        while True:
-            comando = input("\nEscolha uma alternativa válida: ")
-            if comando == "1" or comando == "2" or comando == "3" or comando == "4" or comando == "5":
-                break
 
 # História
-historia = Historia()   
+historia = Historia(personagem_escolhido)   
 historia.iniciarHistoria()
 
 # Batalha       
