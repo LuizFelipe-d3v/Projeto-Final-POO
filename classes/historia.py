@@ -1,5 +1,7 @@
 import time
 import os
+from .personagens import Inimigo
+from classes.batalha import Batalha
 
 class Historia:
     def __init__(self, jogador):
