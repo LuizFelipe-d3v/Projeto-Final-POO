@@ -1,6 +1,6 @@
 # Inicio do projeto 
 import os
-from classes.itens import Arma
+from classes.itens import Arma, Pocao
 from classes.personagens import Jogador
 from classes.historia import Historia
 import questionary
@@ -28,61 +28,65 @@ os.system('cls' if os.name == 'nt' else 'clear')
 
 # personagem_escolhido = Jogador()
 
+
 match classe:
     case "1": 
         print("Você escolheu a classe Mago!")
 
         Cajado = Arma("Cajado", 4)
         Varinha = Arma("Varinha", 3)
-        lista_armas_mago = [Cajado, Varinha]
+        pocao_vida = Pocao("Poção de Vida", 30, "vida")
+        pocao_mana = Pocao("Poção de Mana", 20, "mana")
+        #trocar para iventario
+        inventario = [Varinha, Cajado, pocao_vida, pocao_mana]
+        # Ordem: classe, vida, inventario, armas, defesa, arma_escolhida, habilidades, mana
+        personagem_escolhido = Jogador("Mago", 100, inventario, None, 8, None, None, 50)
+        # personagem_escolhido.apresentar()   
 
-        personagem_escolhido = Jogador("Mago", 100, lista_armas_mago, 8)
-        personagem_escolhido.apresentar()       
-        personagem_escolhido.escolher_arma()      
+        print ("Escolha sua arma inicial:")
+        personagem_escolhido.mostrar_inventario()
+            
+        # personagem_escolhido.escolher_arma()      
     case "2":
         print("Você escolheu a classe Assasino! A furtividade é sua maior arma.")
 
         Adagas = Arma("Adaga", 4)
         Rapiera = Arma("Rapiera", 3)
         lista_armas_assasino = [Adagas, Rapiera]
-
-        personagem_escolhido = Jogador("Assasino", 14, lista_armas_assasino, 16)
+        personagem_escolhido = Jogador("Assassino", 100, lista_armas_assasino, None, 16, None, None, 40)
         personagem_escolhido.apresentar()
-        personagem_escolhido.escolher_arma()
+        personagem_escolhido.mostrar_inventario()
     case "3":
         print("Você escolheu a classe Tank! Sua resistência é imbatível.")
 
         Manoplas = Arma("Manoplas", 10)
         Escudo = Arma("Escudo", 6)
         lista_armas_tank = [Manoplas, Escudo]
-
-        personagem_escolhido = Jogador("Tank", 30, lista_armas_tank, 19)
+        personagem_escolhido = Jogador("Tank", 150, lista_armas_tank, None, 30, None, None, 20)
         personagem_escolhido.apresentar()
-        personagem_escolhido.escolher_arma()
+        personagem_escolhido.mostrar_inventario()
     case "4":
         print("Você escolheu a classe Paladino! A justiça está do seu lado.")
 
         Espada_Longa = Arma("Espada Longa", 4)
         Alabarda = Arma("Alabarda", 3)
         lista_armas_paladino = [Espada_Longa, Alabarda]
-
-        personagem_escolhido = Jogador("Paladino", 24, lista_armas_paladino, 17)
+        personagem_escolhido = Jogador("Paladino", 120, lista_armas_paladino, None, 20, None, None, 30)
         personagem_escolhido.apresentar()
-        personagem_escolhido.escolher_arma()
+        personagem_escolhido.mostrar_inventario()
     case "5":
         print("Você escolheu a classe Barbaro! A força bruta é sua especialidade.")
 
         Machado = Arma("Machado", 18)
         Lanca = Arma("Lança", 6)
         lista_armas_barbaro = [Machado, Lanca]
-
-        personagem_escolhido = Jogador("Bárbaro", 22, lista_armas_barbaro, 16)
+        personagem_escolhido = Jogador("Bárbaro", 130, lista_armas_barbaro, None, 15, None, None, 10)
         personagem_escolhido.apresentar()
-        personagem_escolhido.escolher_arma()
+        personagem_escolhido.mostrar_inventario()
 
 # História
-historia = Historia(personagem_escolhido)   
-historia.iniciarHistoria()
+# historia = Historia(personagem_escolhido)   
+# historia.iniciarHistoria()
 
 # Batalha       
 # Mau = Inimigo(15, 10, 10, "GOBLIM")
