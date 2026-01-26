@@ -1,6 +1,6 @@
 # Inicio do projeto 
 import os
-from classes.itens import Arma
+from classes.itens import Arma, Pocao
 from classes.personagens import Jogador
 from classes.historia import Historia
 import questionary
@@ -34,11 +34,18 @@ match classe:
 
         Cajado = Arma("Cajado", 4)
         Varinha = Arma("Varinha", 3)
-        lista_armas_mago = [Cajado, Varinha]
+        pocao_vida = Pocao("Poção de Vida", 30, "vida")
+        pocao_mana = Pocao("Poção de Mana", 20, "mana")
+        #trocar para iventario
+        inventario = [Varinha, Cajado, pocao_vida, pocao_mana]
+        #add pocoes
+        personagem_escolhido = Jogador("Mago", 100, inventario, 8)
+        # personagem_escolhido.apresentar()   
 
-        personagem_escolhido = Jogador("Mago", 100, lista_armas_mago, 8)
-        personagem_escolhido.apresentar()       
-        personagem_escolhido.escolher_arma()      
+        print ("Escolha sua arma inicial:")
+        personagem_escolhido.mostrar_inventario()
+            
+        # personagem_escolhido.escolher_arma()      
     case "2":
         print("Você escolheu a classe Assasino! A furtividade é sua maior arma.")
 
@@ -81,8 +88,8 @@ match classe:
         personagem_escolhido.escolher_arma()
 
 # História
-historia = Historia(personagem_escolhido)   
-historia.iniciarHistoria()
+# historia = Historia(personagem_escolhido)   
+# historia.iniciarHistoria()
 
 # Batalha       
 # Mau = Inimigo(15, 10, 10, "GOBLIM")

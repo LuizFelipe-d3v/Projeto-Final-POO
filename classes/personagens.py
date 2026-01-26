@@ -1,4 +1,5 @@
 import os
+from classes.itens import Arma, Pocao
 from abc import ABC, abstractmethod
 import questionary
 
@@ -47,14 +48,14 @@ class Personagem(ABC):
         pass
                    
 class Jogador(Personagem):
-    def __init__(self, classe=None, vida=None, armas=None, defesa=None, arma_escolhida=None, habilidades=None, mana=None):
+    def __init__(self, classe=None, vida=None, inventario=[], armas=None, defesa=None, arma_escolhida=None, habilidades=None, mana=None):
         super().__init__(vida, defesa)
         self.__mana = mana
         self.__mana_maxima = mana
         self.classe = classe
-        self.armas = armas
+        #self.armas = armas
         self.arma_escolhida = arma_escolhida
-        self.inventario = []
+        self.inventario = inventario
         self.habilidades = habilidades
 
     @property
@@ -78,21 +79,21 @@ class Jogador(Personagem):
         questionary.text("ESTÁ PRONTO PARA ESCOLHER SEU EQUIPAMENTO? (aperte Enter para seguir)").ask()
         os.system('cls' if os.name == 'nt' else 'clear')
         
-    def escolher_arma(self):
-        opcoes = []
+    # def escolher_arma(self):
+    #     opcoes = []
 
-        for arma in self.armas:
-            texto_opcao = f"{arma.nome} (Dano: {arma.dano})"
-            opcoes.append(texto_opcao)
+    #     for arma in self.armas:
+    #         texto_opcao = f"{arma.nome} (Dano: {arma.dano})"
+    #         opcoes.append(texto_opcao)
 
-        escolha = questionary.select(
-            "Escolha sua arma:",
-            choices=opcoes
-        ).ask()
+    #     escolha = questionary.select(
+    #         "Escolha sua arma:",
+    #         choices=opcoes
+    #     ).ask()
 
-        indice = opcoes.index(escolha)
-        self.arma_escolhida = self.armas[indice]
-        print(f"\nVocê escolheu: {self.arma_escolhida.nome}")
+    #     indice = opcoes.index(escolha)
+    #     self.arma_escolhida = self.armas[indice]
+    #     print(f"\nVocê escolheu: {self.arma_escolhida.nome}")
 
 
     def usar_habilidade(self, habilidade, inimigo):
@@ -109,6 +110,62 @@ class Jogador(Personagem):
     def atacar(self, alvo):
         dano = self.arma_escolhida.dano
         super().atacar(alvo, dano)
+
+    def guardar_item(self, item):
+        self.inventario.append(item)
+        print(f"\nVocê guardou {item.nome} no inventário.")
+
+    def mostrar_inventario(self):
+        while True:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print("\n------------INVENTÁRIO------------")
+            if self.arma_escolhida:
+                print(f"Arma equipada: {self.arma_escolhida.nome} (Dano: {self.arma_escolhida.dano})")
+
+            # if not self.inventario:
+            #     print("Seu inventário está vazio.")
+            #     questionary.text("Pressione Enter para voltar.").ask()
+            #     break
+            lista_menu = []
+            for item in self.inventario:
+                lista_menu.append(item.nome)
+
+            lista_menu.append("Voltar")
+
+
+            escolha = questionary.select(
+                "Escolha um item para usar ou 'Voltar' para sair:",
+                choices=lista_menu
+            ).ask()
+
+
+            if escolha == "Voltar" or escolha is None:
+                break
+            
+            #ver essa porra dps
+            for item in self.inventario:
+                if item.nome == escolha:
+                    if isinstance(item, Pocao):
+                        self.usar_pocao(item.nome, self)
+                    elif isinstance(item, Arma):
+                        self.equipar_arma(item)
+                    break  
+            
+                
+    def usar_pocao(self, pocao_nome, usuario):
+        for item in self.inventario:
+            if item.nome == pocao_nome:
+                item.usar(usuario)
+                self.inventario.remove(item)
+                print(f"\nVocê usou a poção {pocao_nome}.")
+                return
+            else:
+                print(f"\nVocê não possui uma poção chamada {pocao_nome} no inventário.")  
+
+    def equipar_arma(self, nova_arma):
+        nova_arma.usar(self)
+        print(f"\nVocê equipou a arma {nova_arma.nome}.")  
+               
     
 class Inimigo(Personagem):
     def __init__(self, vida=None, defesa=None, dano=None, nome=None):
