@@ -7,13 +7,13 @@ import questionary
 class Personagem(ABC):
     
     def __init__(self, vida=None, defesa=None, armas=None, habilidades=None):
-        self._vida = vida
-        self._defesa = defesa
-        self._vida_maxima = vida    
+        self.__vida = vida
+        self.__defesa = defesa
+        self.__vida_maxima = vida    
     
     @property
     def vida_maxima(self):
-        return self._vida_maxima
+        return self.__vida_maxima
 
     @property
     def vida(self):
@@ -21,25 +21,25 @@ class Personagem(ABC):
     
     @vida.setter
     def vida(self, valor):
-        self._vida += valor
+        self.__vida = valor
 
-        if self._vida < 0:
-            self._vida = 0
+        if self.__vida < 0:
+            self.__vida = 0
 
-        if self._vida > self._vida_maxima:
-            self._vida = self._vida_maxima
+        if self.__vida > self.__vida_maxima:
+            self.__vida = self.__vida_maxima
 
     @property
     def defesa(self):
         return self.__defesa
 
     def estar_vivo(self):
-        return self._vida > 0
+        return self.__vida > 0
     
     def receber_dano(self, dano):
-        self._vida -= dano
-        if self._vida < 0:
-            self._vida = 0
+        self.__vida -= dano
+        if self.__vida < 0:
+            self.__vida = 0
         
         print(f"Vida restante: {self.vida}")
     
@@ -59,12 +59,16 @@ class Jogador(Personagem):
         self.habilidades = habilidades
 
     @property
+    def mana_maxima(self):
+        return self.__mana_maxima
+
+    @property
     def mana(self):
         return self.__mana
 
     @mana.setter
     def mana(self, valor):
-        self.__mana += valor
+        self.__mana = valor
 
         if self.__mana < 0:
             self.__mana = 0
@@ -119,53 +123,35 @@ class Jogador(Personagem):
         while True:
             os.system('cls' if os.name == 'nt' else 'clear')
             print("\n------------INVENTÁRIO------------")
+            print(f"Vida: {self.vida}/{self.vida_maxima}")
+            if hasattr(self, 'mana'):
+                print(f"Mana: {self.mana}/{self.mana_maxima}")
+            
             if self.arma_escolhida:
                 print(f"Arma equipada: {self.arma_escolhida.nome} (Dano: {self.arma_escolhida.dano})")
 
-            # if not self.inventario:
-            #     print("Seu inventário está vazio.")
-            #     questionary.text("Pressione Enter para voltar.").ask()
-            #     break
-            lista_menu = []
+            opcoes = []
             for item in self.inventario:
-                lista_menu.append(item.nome)
-
-            lista_menu.append("Voltar")
-
+                opcoes.append(questionary.Choice(item.nome, value=item))
+            
+            opcoes.append(questionary.Choice("Voltar", value="voltar"))
 
             escolha = questionary.select(
                 "Escolha um item para usar ou 'Voltar' para sair:",
-                choices=lista_menu
+                choices=opcoes
             ).ask()
 
-
-            if escolha == "Voltar" or escolha is None:
+            if escolha == "voltar" or escolha is None:
                 break
             
-            #ver essa porra dps
-            for item in self.inventario:
-                if item.nome == escolha:
-                    if isinstance(item, Pocao):
-                        self.usar_pocao(item.nome, self)
-                    elif isinstance(item, Arma):
-                        self.equipar_arma(item)
-                    break  
-            
-                
-    def usar_pocao(self, pocao_nome, usuario):
-        for item in self.inventario:
-            if item.nome == pocao_nome:
-                item.usar(usuario)
+            item = escolha
+            if isinstance(item, Pocao):
+                item.usar(self)
                 self.inventario.remove(item)
-                print(f"\nVocê usou a poção {pocao_nome}.")
-                return
-            else:
-                print(f"\nVocê não possui uma poção chamada {pocao_nome} no inventário.")  
-
-    def equipar_arma(self, nova_arma):
-        nova_arma.usar(self)
-        print(f"\nVocê equipou a arma {nova_arma.nome}.")  
-               
+            elif isinstance(item, Arma):
+                item.usar(self)
+            
+            questionary.text("\nPressione Enter para continuar...").ask()
     
 class Inimigo(Personagem):
     def __init__(self, vida=None, defesa=None, dano=None, nome=None):
