@@ -1,4 +1,5 @@
 from abc import ABC
+from classes.personagens import Personagem
 class IItem(ABC):
     def __init__(self, nome):
         self.nome = nome    
@@ -33,8 +34,10 @@ class Pocao(IItem):
     def usar(self, usuario):
         if self.tipo == "vida":
             usuario.vida += self.__valor_recuperacao
+            
             print(f"{usuario.__class__.__name__} usou {self.nome} e recuperou {self.__valor_recuperacao} de vida.")
             print(f"Vida atual: {usuario.vida}/{usuario.vida_maxima}")
+
             
         elif self.tipo == "mana":
             usuario.mana += self.__valor_recuperacao
