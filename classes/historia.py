@@ -40,7 +40,16 @@ class Historia:
         self.digitar("Após derrotar o goblin e recuperar o fôlego, você percebe dois túneis ao fundo da sala..." \
         "\nUm segue para a esquerda, o outro para a direita..." \
         "\n 1 - Túnel da esquerda  2 - Túnel da direita")
-        escolherTunel = input("\n\nQual será o seu próximo passo? ")
+        print("\n\nQual será o seu próximo passo? ")
+
+        escolherTunel = questionary.select(
+            "Qual será o seu próximo passo?",
+            choices=[
+                "1",
+                "2"
+            ]).ask()
+
+
         self.digitar("...", 1)
         time.sleep(0.8)
 

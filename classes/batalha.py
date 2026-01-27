@@ -78,6 +78,9 @@ class Batalha:
         
         time.sleep(1.5)
 
+        questionary.text("\nPressione Enter para continuar...").ask()
+
+
     def turno_jogador_habilidade(self):
         if not self.jogador.habilidade:
             print(" Você não possui uma habilidade especial para usar!")
@@ -102,6 +105,8 @@ class Batalha:
                 return False
         return False 
 
+        questionary.text("\nPressione Enter para continuar...").ask()
+
     def turno_inimigo(self):
         print(f"\n TURNO DO {self.inimigo.nome}...")
         time.sleep(1)
@@ -114,4 +119,6 @@ class Batalha:
             print(f"você se esquivou do ataque do {self.inimigo.nome}!")
         
         time.sleep(1.5)
+
+        questionary.text("\nPressione Enter para continuar...").ask()
 

@@ -39,7 +39,7 @@ match classe:
         Varinha = Arma("Varinha", 12)
         pocao_vida = Pocao("Poção de Vida", 30, "vida")
         pocao_mana = Pocao("Poção de Mana", 20, "mana")
-        habilidades_mago = {"nome": "bola de fogo", "descricao": "uma grande bola de fogo", "dano": 5, "custo_mana": 10}
+        habilidades_mago = {"nome": "bola de fogo", "descricao": "uma grande bola de fogo", "dano": 25, "custo_mana": 10}
         #trocar para iventario
         inventario = [Varinha, Cajado, pocao_vida, pocao_mana]
         personagem_escolhido = Jogador("Mago", 100, inventario, 15, None, habilidades_mago, 50)
@@ -54,7 +54,7 @@ match classe:
         Rapiera = Arma("Rapiera", 20)
         pocao_vida = Pocao("Poção de Vida", 30, "vida")
         pocao_mana = Pocao("Poção de Mana", 10, "mana")
-        habilidade_assasino = {"nome": "ataque furtivo", "descricao": "um ataque mortal vindo das sombras", "dano": 10, "custo_mana": 5}
+        habilidade_assasino = {"nome": "ataque furtivo", "descricao": "um ataque mortal vindo das sombras", "dano": 35, "custo_mana": 5}
         #trocar para iventario
         inventario = [Adagas, Rapiera, pocao_vida, pocao_mana]
         personagem_escolhido = Jogador("Assassino", 120, inventario, 16, None, habilidade_assasino, 20)
@@ -67,7 +67,7 @@ match classe:
         Escudo = Arma("Escudo", 8)
         pocao_vida = Pocao("Poção de Vida", 50, "vida")
         pocao_mana = Pocao("Poção de Mana", 10, "mana")
-        habilidade_tank = {"nome": "Impacto do Guardião", "descricao": "avança com o escudo erguido", "dano": 10, "custo_mana": 5}
+        habilidade_tank = {"nome": "Impacto do Guardião", "descricao": "avança com o escudo erguido", "dano": 24, "custo_mana": 5}
         #trocar para iventario
         inventario = [Manoplas, Escudo, pocao_vida, pocao_mana]
         personagem_escolhido = Jogador("Tank", 150, inventario, 18, None, habilidade_tank, 20)
@@ -80,7 +80,7 @@ match classe:
         Alabarda = Arma("Alabarda", 19)
         pocao_vida = Pocao("Poção de Vida", 40, "vida")
         pocao_mana = Pocao("Poção de Mana", 16, "mana")
-        habilidade_paladino = {"nome": "Golpe Sagrado", "descricao": "um ataque abençoado que causa dano extra", "dano": 10, "custo_mana": 8}
+        habilidade_paladino = {"nome": "Golpe Sagrado", "descricao": "um ataque abençoado que causa dano extra", "dano": 36, "custo_mana": 8}
         #trocar para iventario
         inventario = [Espada_Longa, Alabarda, pocao_vida, pocao_mana]
         personagem_escolhido = Jogador("Paladino", 120, inventario, 17, None, habilidade_paladino, 20)
@@ -104,10 +104,29 @@ match classe:
 # historia = Historia(personagem_escolhido)   
 # historia.iniciarHistoria()
 
-# Batalha       
-# Mau = Inimigo(15, 10, 10, "GOBLIM")
-# Batalhar = Batalha(personagem_escolhido, Mau)
 
-# Batalhar.combate(personagem_escolhido, Mau, personagem_escolhido.arma_escolhida.dano, Mau.dano, personagem_escolhido.defesa, Mau.defesa)
-# Testes para a classe Batalha
+def test_combate():
+    jogador1 = Jogador("Heroi", 100, [], 15, None, None, 50)
+    jogador2 = Jogador("Inimigo", 80, [], 10, None, None, 30)
+    
+    batalha = Batalha(jogador1, jogador2)
+    
+    # Simular o combate
+    batalha.combate(jogador1, jogador2, 20, 15, 10, 5)
+    
+    # Verificar se o jogador2 foi derrotado
+    assert not jogador2.estar_vivo(), "O inimigo deveria ter sido derrotado."
 
+    # Reiniciar os jogadores para um novo teste
+    jogador1 = Jogador("Heroi", 100, [], 15, None, None, 50)
+    jogador2 = Jogador("Inimigo", 80, [], 10, None, None, 30)
+
+    # Simular o combate novamente
+    batalha.combate(jogador2, jogador1, 15, 20, 5, 10)
+    
+    # Verificar se o jogador1 foi derrotado
+    assert not jogador1.estar_vivo(), "O jogador deveria ter sido derrotado."
+
+Mau = Inimigo(30, 10, 5, "GOBLIN") # vida, defesa, dano, nome
+Batalhar = Batalha(personagem_escolhido, Mau)
+Batalhar.combate()
