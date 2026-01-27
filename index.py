@@ -43,9 +43,9 @@ match classe:
         #trocar para iventario
         inventario = [Varinha, Cajado, pocao_vida, pocao_mana]
         personagem_escolhido = Jogador("Mago", 100, inventario, 15, None, habilidades_mago, 50)
-        # personagem_escolhido.apresentar()   
-        # print ("Escolha sua arma inicial:")
-        # personagem_escolhido.mostrar_inventario()
+        personagem_escolhido.apresentar()   
+        print ("Escolha sua arma inicial:")
+        personagem_escolhido.mostrar_inventario()
                  
     case "2":
         print("Você escolheu a classe Assasino! A furtividade é sua maior arma.")
