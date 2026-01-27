@@ -1,59 +1,117 @@
 import time
 import random
 import os
+from classes.personagens import Jogador, Inimigo
+import questionary
 
 class Batalha:
-    def __init__(self, jogador1, jogador2): 
-        self.jogador1 = jogador1
-        self.jogador2 = jogador2
+    def __init__(self, jogador, inimigo):
+        self.jogador = jogador
+        self.inimigo = inimigo
 
-    def combate(self, personagem, inimigo, dano_personagem, dano_inimigo, defesa_personagem, defesa_inimigo):
-        os.system('cls')
+    def combate(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("\n-------- PREPARE-SE A BATALHA IRÁ COMEÇAR! --------")
-        time.sleep(2)
+        time.sleep(1)
 
-        while personagem.estar_vivo() and inimigo.estar_vivo():
-            print("\n----------- SEU TURNO -----------")
-            time.sleep(0.8)
+        while self.jogador.estar_vivo() and self.inimigo.estar_vivo():
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print(f"--- STATUS DO COMBATE ---")
+            print(f"   {self.jogador.classe}: {self.jogador.vida}/{self.jogador.vida_maxima} HP | Mana: {self.jogador.mana}/{self.jogador.mana_maxima}")
+            print(f" {self.inimigo.nome}: {self.inimigo.vida} HP")
+            print("-" * 25)
 
-            blRolarDados = input("Pressione ENTER para rolar os dados.")
-            print("ROLANDO OS DADOS...")
-            time.sleep(1)
-            numero = random.randint(19, 20)
-            print(f"Número do ataque: {numero}")
-            time.sleep(0.8)
+            escolha = questionary.select(
+                "Escolha sua ação:",
+                choices=[
+                    "Atacar",
+                    "Usar Habilidade Especial",
+                    "Abrir Inventário",
+                ]
+            ).ask()
 
-            if numero >= defesa_inimigo:
-                print("ATACANDO...")
-                time.sleep(0.8)
-                inimigo.receber_dano(dano_personagem, numero, 1)
-            else:
-                print("VOCÊ ERROU O GOLPE")
+            if escolha == "Atacar":
+                self.turno_jogador_ataque()
+            
+            elif escolha == "Usar Habilidade Especial":
+                if not self.turno_jogador_habilidade():
+                    continue
+            
+            elif escolha == "Abrir Inventário":
+                usou_item = self.jogador.mostrar_inventario()
+                if not usou_item:
+                    continue
 
-            time.sleep(1)
-
-            if not inimigo.estar_vivo():
-                print(f"\n💀 O {inimigo.nome} FOI DERROTADO!")
+            if not self.inimigo.estar_vivo():
+                print("\n O inimigo foi derrotado!")
+                time.sleep(2)
                 break
 
-            print(f"\n----------- TURNO DO {inimigo.nome} -----------")
-            time.sleep(0.8)
+            self.turno_inimigo()
 
-            print("ROLANDO OS DADOS...")
-            time.sleep(1)
-            numero = random.randint(19, 20)
-            print(f"Número do ataque: {numero}")
-            time.sleep(1)
-
-            if numero >= defesa_personagem:
-                print(f"O {inimigo.nome} VAI ATACAR...")
-                time.sleep(0.8)
-                personagem.receber_dano(dano_inimigo, numero, 2)
-            else:
-                print(f"O {inimigo.nome} ERROU O GOLPE")
-
-            time.sleep(1)
-
-            if not personagem.estar_vivo():
-                print("\n☠️  VOCÊ FOI DERROTADO!")
+            if not self.jogador.estar_vivo():
+                print("\n Você foi derrotado!")
+                time.sleep(2)
                 break
+
+        print("\n-------- FIM DA BATALHA --------")
+            
+
+
+    
+    def turno_jogador_ataque(self):
+        print("\n ROLANDO DADOS DE ATAQUE...")
+        time.sleep(0.8)
+        dado = random.randint(1, 20)
+        print(f"Resultado: {dado}")
+
+        if dado >= self.inimigo.defesa:
+            dano = self.jogador.arma_escolhida.dano
+            if dado == 20:
+                print(" ACERTO CRÍTICO!")
+                dano *= 2
+            
+            print(f" Você causou {dano} de dano ao {self.inimigo.nome}!")
+            self.inimigo.receber_dano(dano)
+        else:
+            print(f"🛡️  O {self.inimigo.nome} bloqueou seu ataque!")
+        
+        time.sleep(1.5)
+
+    def turno_jogador_habilidade(self):
+        if not self.jogador.habilidade:
+            print(" Você não possui uma habilidade especial para usar!")
+            time.sleep(1.5)
+            return False
+
+        habilidade = self.jogador.habilidade
+        print(f"\n Deseja usar {habilidade.nome}?")
+        print(f" Descrição: {habilidade.descricao}")
+        print(f" Dano: {habilidade.dano} | ✨ Custo: {habilidade.custo_mana} mana")
+
+        confirmar = questionary.confirm(f"Confirmar uso de {habilidade.nome}?").ask()
+        
+        if confirmar:
+            if self.jogador.mana >= habilidade.custo_mana:
+                self.jogador.usar_habilidade(self.inimigo)
+                time.sleep(1.5)
+                return True
+            else:
+                print("\nMana insuficiente")
+                time.sleep(1.2)
+                return False
+        return False 
+
+    def turno_inimigo(self):
+        print(f"\n TURNO DO {self.inimigo.nome}...")
+        time.sleep(1)
+        dado = random.randint(1, 20)
+        
+        if dado >= self.jogador.defesa:
+            print(f"O {self.inimigo.nome} acertou")
+            self.jogador.receber_dano(self.inimigo.dano)
+        else:
+            print(f"você se esquivou do ataque do {self.inimigo.nome}!")
+        
+        time.sleep(1.5)
+

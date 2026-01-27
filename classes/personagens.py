@@ -1,12 +1,9 @@
 import os
-from classes.itens import Arma, Pocao
 from abc import ABC, abstractmethod
 import questionary
 
-
 class Personagem(ABC):
-    
-    def __init__(self, vida=None, defesa=None, armas=None, habilidades=None):
+    def __init__(self, vida=None, defesa=None):
         self.__vida = vida
         self.__defesa = defesa
         self.__vida_maxima = vida    
@@ -22,10 +19,8 @@ class Personagem(ABC):
     @vida.setter
     def vida(self, valor):
         self.__vida = valor
-
         if self.__vida < 0:
             self.__vida = 0
-
         if self.__vida > self.__vida_maxima:
             self.__vida = self.__vida_maxima
 
@@ -40,13 +35,12 @@ class Personagem(ABC):
         self.__vida -= dano
         if self.__vida < 0:
             self.__vida = 0
-        
         print(f"Vida restante: {self.vida}")
     
     @abstractmethod
     def atacar(self, alvo, dano):
         pass
-                   
+
 class Jogador(Personagem):
     def __init__(self, classe=None, vida=None, inventario=[], defesa=None, arma_escolhida=None, dados_habilidades=None, mana=None):
         super().__init__(vida, defesa)
@@ -68,8 +62,12 @@ class Jogador(Personagem):
     def vida(self):
         return super().vida
 
-    
-    
+    @vida.setter
+    def vida(self, valor):
+        Personagem.vida.fset(self, valor)
+        if not self.estar_vivo():
+            self.habilidade = None
+
     @property
     def mana_maxima(self):
         return self.__mana_maxima
@@ -81,10 +79,8 @@ class Jogador(Personagem):
     @mana.setter
     def mana(self, valor):
         self.__mana = valor
-
         if self.__mana < 0:
             self.__mana = 0
-
         if self.__mana > self.__mana_maxima:
             self.__mana = self.__mana_maxima
 
@@ -104,12 +100,10 @@ class Jogador(Personagem):
         if sucesso:
             print(f"\nVocê usou a habilidade {self.habilidade.nome} causando {self.habilidade.dano} de dano!")
             return True
-
         else:
             print("\nMana insuficiente para usar a habilidade.")
             return False
-        
-    
+
     def receber_dano(self, dano):
         print("\nVocê foi atingido!")
         return super().receber_dano(dano)
@@ -136,13 +130,11 @@ class Jogador(Personagem):
             if self.habilidade:
                 print(f"Habilidade especial: {self.habilidade.nome} (Dano: {self.habilidade.dano}, Custo de Mana: {self.habilidade.custo_mana})")
 
-            
-
             opcoes = []
             for item in self.inventario:
                 opcoes.append(questionary.Choice(item.nome, value=item))
-
-            # opcoes.append(questionary.Choice("Voltar", value="voltar"))
+            
+            opcoes.append(questionary.Choice("🔙 Voltar", value="voltar"))
 
             escolha = questionary.select(
                 "Escolha um item para usar ou 'Voltar' para sair:",
@@ -150,13 +142,14 @@ class Jogador(Personagem):
             ).ask()
 
             if escolha == "voltar" or escolha is None:
-                break
+                return False
             
             item = escolha
             item.usar(self)
             
             questionary.text("\nPressione Enter para continuar...").ask()
-    
+            return True
+
 class Inimigo(Personagem):
     def __init__(self, vida=None, defesa=None, dano=None, nome=None):
         super().__init__(vida, defesa)
@@ -171,6 +164,9 @@ class Inimigo(Personagem):
         print(f"O inimigo {self.nome} foi atingido!")
         super().receber_dano(dano)
     
+    def atacar(self, alvo, dano): # Implementando o método abstrato
+        alvo.receber_dano(dano)
+
 class Habilidade:
     def __init__(self, nome: str, descricao: str, dano: int, custo_mana: int):
         self.nome = nome
@@ -186,5 +182,4 @@ class Habilidade:
             jogador.mana -= self.custo_mana
             inimigo.receber_dano(self.dano)
             return True
-        return False 
-        
+        return False

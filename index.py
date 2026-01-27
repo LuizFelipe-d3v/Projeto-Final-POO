@@ -1,10 +1,12 @@
 # Inicio do projeto 
 import os
 from classes.itens import Arma, Pocao
-from classes.personagens import Jogador
+from classes.personagens import Jogador, Inimigo
 from classes.historia import Historia
+from classes.batalha import Batalha
 import questionary
 from questionary import Choice
+
 
 
 classe = questionary.select(
@@ -33,65 +35,68 @@ match classe:
     case "1": 
         print("Você escolheu a classe Mago!")
 
-        Cajado = Arma("Cajado", 4)
-        Varinha = Arma("Varinha", 3)
+        Cajado = Arma("Cajado", 16)
+        Varinha = Arma("Varinha", 12)
         pocao_vida = Pocao("Poção de Vida", 30, "vida")
         pocao_mana = Pocao("Poção de Mana", 20, "mana")
         habilidades_mago = {"nome": "bola de fogo", "descricao": "uma grande bola de fogo", "dano": 5, "custo_mana": 10}
         #trocar para iventario
         inventario = [Varinha, Cajado, pocao_vida, pocao_mana]
-        # Ordem: classe, vida, inventario, armas, defesa, arma_escolhida, habilidades, mana
-        personagem_escolhido = Jogador("Mago", 100, inventario, 8, None, habilidades_mago, 50)
-        personagem_escolhido.apresentar()   
-        print ("Escolha sua arma inicial:")
-        personagem_escolhido.mostrar_inventario()
+        personagem_escolhido = Jogador("Mago", 100, inventario, 15, None, habilidades_mago, 50)
+        # personagem_escolhido.apresentar()   
+        # print ("Escolha sua arma inicial:")
+        # personagem_escolhido.mostrar_inventario()
                  
     case "2":
         print("Você escolheu a classe Assasino! A furtividade é sua maior arma.")
 
-        Adagas = Arma("Adaga", 4)
-        Rapiera = Arma("Rapiera", 3)
+        Adagas = Arma("Adaga", 18)
+        Rapiera = Arma("Rapiera", 20)
         pocao_vida = Pocao("Poção de Vida", 30, "vida")
-        pocao_mana = Pocao("Poção de Mana", 20, "mana")
+        pocao_mana = Pocao("Poção de Mana", 10, "mana")
         habilidade_assasino = {"nome": "ataque furtivo", "descricao": "um ataque mortal vindo das sombras", "dano": 10, "custo_mana": 5}
+        #trocar para iventario
         inventario = [Adagas, Rapiera, pocao_vida, pocao_mana]
-        personagem_escolhido = Jogador("Assassino", 100, inventario, 16, None, 20)
+        personagem_escolhido = Jogador("Assassino", 120, inventario, 16, None, habilidade_assasino, 20)
         personagem_escolhido.apresentar()
         personagem_escolhido.mostrar_inventario()
     case "3":
         print("Você escolheu a classe Tank! Sua resistência é imbatível.")
 
-        Manoplas = Arma("Manoplas", 10)
-        Escudo = Arma("Escudo", 6)
-        pocao_vida = Pocao("Poção de Vida", 30, "vida")
-        pocao_mana = Pocao("Poção de Mana", 20, "mana")
+        Manoplas = Arma("Manoplas", 12)
+        Escudo = Arma("Escudo", 8)
+        pocao_vida = Pocao("Poção de Vida", 50, "vida")
+        pocao_mana = Pocao("Poção de Mana", 10, "mana")
         habilidade_tank = {"nome": "Impacto do Guardião", "descricao": "avança com o escudo erguido", "dano": 10, "custo_mana": 5}
+        #trocar para iventario
         inventario = [Manoplas, Escudo, pocao_vida, pocao_mana]
-        personagem_escolhido = Jogador("Tank", 150, inventario, 30, None, 20, 20)
+        personagem_escolhido = Jogador("Tank", 150, inventario, 18, None, habilidade_tank, 20)
         personagem_escolhido.apresentar()
         personagem_escolhido.mostrar_inventario()
     case "4":
         print("Você escolheu a classe Paladino! A justiça está do seu lado.")
 
-        Espada_Longa = Arma("Espada Longa", 4)
-        Alabarda = Arma("Alabarda", 3)
-        pocao_vida = Pocao("Poção de Vida", 30, "vida")
-        pocao_mana = Pocao("Poção de Mana", 20, "mana")
+        Espada_Longa = Arma("Espada Longa", 22)
+        Alabarda = Arma("Alabarda", 19)
+        pocao_vida = Pocao("Poção de Vida", 40, "vida")
+        pocao_mana = Pocao("Poção de Mana", 16, "mana")
         habilidade_paladino = {"nome": "Golpe Sagrado", "descricao": "um ataque abençoado que causa dano extra", "dano": 10, "custo_mana": 8}
+        #trocar para iventario
         inventario = [Espada_Longa, Alabarda, pocao_vida, pocao_mana]
-        personagem_escolhido = Jogador("Paladino", 120, inventario, 20, None, 30, 20)
+        personagem_escolhido = Jogador("Paladino", 120, inventario, 17, None, habilidade_paladino, 20)
         personagem_escolhido.apresentar()
         personagem_escolhido.mostrar_inventario()
     case "5":
         print("Você escolheu a classe Barbaro! A força bruta é sua especialidade.")
 
-        Machado = Arma("Machado", 18)
-        Lanca = Arma("Lança", 6)
-        pocao_vida = Pocao("Poção de Vida", 30, "vida")
-        pocao_mana = Pocao("Poção de Mana", 20, "mana")
-        habilidade_barbaro = {"nome": "Fúria do Berserker", "descricao": "um ataque poderoso que aumenta o dano", "dano": 15, "custo_mana": 0}
+        Machado = Arma("Machado", 999)
+        Lanca = Arma("Lança", 999)
+        pocao_vida = Pocao("Poção de Vida", 40, "vida")
+        pocao_mana = Pocao("Poção de Mana", 12, "mana")
+        habilidade_barbaro = {"nome": "Fúria do Berserker", "descricao": "um ataque poderoso que aumenta o dano", "dano": 999, "custo_mana": 0}
+        #trocar para iventario
         inventario = [Machado, Lanca, pocao_vida, pocao_mana]
-        personagem_escolhido = Jogador("Bárbaro", 130, inventario, 15, None, 10)
+        personagem_escolhido = Jogador("Bárbaro", 99999, inventario, 21, None, habilidade_barbaro, 999)
         personagem_escolhido.apresentar()
         personagem_escolhido.mostrar_inventario()
 
@@ -104,3 +109,5 @@ match classe:
 # Batalhar = Batalha(personagem_escolhido, Mau)
 
 # Batalhar.combate(personagem_escolhido, Mau, personagem_escolhido.arma_escolhida.dano, Mau.dano, personagem_escolhido.defesa, Mau.defesa)
+# Testes para a classe Batalha
+

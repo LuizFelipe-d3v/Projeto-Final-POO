@@ -2,6 +2,8 @@ import time
 import os
 from .personagens import Inimigo
 from classes.batalha import Batalha
+import questionary
+
 
 class Historia:
     def __init__(self, jogador):
@@ -48,8 +50,7 @@ class Historia:
                 self.digitar("\nVocê decide seguir pelo túnel da esquerda e logo percebe que ele é muito mais longo do que imaginava..." \
                 "\nAo final do caminho, você chega a uma grande sala surpreendentemente arrumada..." \
                 "\nEnquanto avança pelo salão, seus olhos são atraídos por uma estrutura rudimentar que lembra um trono..." \
-                "\nSentado sobre ele está uma criatura semelhante ao goblin que você enfrentou anteriormente..." \
-                "\nPorém muito maior. Com quase dois metros de altura, com músculos enormes e empunhando uma enorme espada..." \
+                "\nSentado sobre ele está uma criatura de quase dois metros de altura, com músculos enormes e empunhando uma enorme espada..." \
                 "\nA verdade se revela quando você observa com mais atenção: você acaba de encontrar um orc..." \
                 "\nVocê se prepara para o combate.")
                 time.sleep(2)
@@ -60,6 +61,7 @@ class Historia:
                 Batalhar.combate(self.jogador, Orc, self.jogador.arma_escolhida.dano, Orc.dano, self.jogador.defesa, Orc.defesa)
                 time.sleep(2)
                 os.system('cls')
+
             case "2":
                 os.system('cls')
                 self.digitar("\nVocê decide seguir pelo túnel da direita e logo percebe que ele é muito mais longo do que imaginava..." \
@@ -98,6 +100,47 @@ class Historia:
         time.sleep(2)
         os.system('cls')
 
+        self.digitar("Após derrotar o kobold e recuperar o fôlego, você percebe dois túneis ao fundo da sala..." \
+        "\nUm segue para a esquerda, o outro para a direita..." \
+        "\n 1 - Túnel da esquerda  2 - Túnel da direita")
+        escolherTunel = input("\n\nQual será o seu próximo passo? ")
+        self.digitar("...", 1)
+        time.sleep(0.8)
+
+        match escolherTunel:
+            case "1":
+                os.system('cls')
+                self.digitar("\nVocê decide seguir pelo túnel da esquerda e logo percebe que ele é muito mais longo do que imaginava..." \
+                "\nAo final do caminho, você chega a uma grande sala surpreendentemente arrumada..." \
+                "\nEnquanto avança pelo salão, seus olhos são atraídos por uma estrutura rudimentar que lembra um trono..." \
+                "\nSentado sobre ele está uma criatura de quase dois metros de altura, com músculos enormes e empunhando uma enorme espada..." \
+                "\nA verdade se revela quando você observa com mais atenção: você acaba de encontrar um orc..." \
+                "\nVocê se prepara para o combate.")
+                time.sleep(2)
+
+                #Batalha
+                Orc = Inimigo(67, 12, 18, "ORC")
+                Batalhar = Batalha(self.jogador, Orc)
+                Batalhar.combate(self.jogador, Orc, self.jogador.arma_escolhida.dano, Orc.dano, self.jogador.defesa, Orc.defesa)
+                time.sleep(2)
+                os.system('cls')
+
+            case "2":
+                os.system('cls')
+                self.digitar("\nVocê decide seguir pelo túnel da direita e logo percebe que ele é muito mais longo do que imaginava..." \
+                "\nAo final do túnel, você se depara com um grande salão iluminado por tochas tremulantes..." \
+                "\nNo centro do salão repousa uma criatura humanoide de grande porte, de pele acinzentada e aparência brutal..." \
+                "\nConforme você avança em sua direção, percebe seus movimentos desajeitados e o olhar vazio..." \
+                "\n Não há mais dúvidas: a criatura à sua frente é um troll." \
+                "\nVocê se prepara para o combate.")
+                time.sleep(2)
+
+                #Batalha
+                Troll = Inimigo(84, 14, 12, "TROLL")
+                Batalhar = Batalha(self.jogador, Troll)
+                Batalhar.combate(self.jogador, Troll, self.jogador.arma_escolhida.dano, Troll.dano, self.jogador.defesa, Troll.defesa)
+                time.sleep(2)
+                os.system('cls')
         ####
 
         # outroinimifo = Inimigo(1, 2, 8, "OUTRO INIMIGO")
