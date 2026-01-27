@@ -48,16 +48,28 @@ class Personagem(ABC):
         pass
                    
 class Jogador(Personagem):
-    def __init__(self, classe=None, vida=None, inventario=[], armas=None, defesa=None, arma_escolhida=None, habilidades=None, mana=None):
+    def __init__(self, classe=None, vida=None, inventario=[], defesa=None, arma_escolhida=None, dados_habilidades=None, mana=None):
         super().__init__(vida, defesa)
         self.__mana = mana
         self.__mana_maxima = mana
         self.classe = classe
-        #self.armas = armas
         self.arma_escolhida = arma_escolhida
         self.inventario = inventario
-        self.habilidades = habilidades
+        self.habilidade = None
+        if dados_habilidades:
+            self.habilidade = Habilidade(
+                dados_habilidades['nome'],
+                dados_habilidades['descricao'],
+                dados_habilidades['dano'],
+                dados_habilidades['custo_mana']
+            )
 
+    @property
+    def vida(self):
+        return super().vida
+
+    
+    
     @property
     def mana_maxima(self):
         return self.__mana_maxima
@@ -83,29 +95,20 @@ class Jogador(Personagem):
         questionary.text("ESTÁ PRONTO PARA ESCOLHER SEU EQUIPAMENTO? (aperte Enter para seguir)").ask()
         os.system('cls' if os.name == 'nt' else 'clear')
         
-    # def escolher_arma(self):
-    #     opcoes = []
+    def usar_habilidade(self, inimigo):
+        if not self.habilidade:
+            print("\nVocê não possui nenhuma habilidade especial.")
+            return False
 
-    #     for arma in self.armas:
-    #         texto_opcao = f"{arma.nome} (Dano: {arma.dano})"
-    #         opcoes.append(texto_opcao)
-
-    #     escolha = questionary.select(
-    #         "Escolha sua arma:",
-    #         choices=opcoes
-    #     ).ask()
-
-    #     indice = opcoes.index(escolha)
-    #     self.arma_escolhida = self.armas[indice]
-    #     print(f"\nVocê escolheu: {self.arma_escolhida.nome}")
-
-
-    def usar_habilidade(self, habilidade, inimigo):
-        sucesso = habilidade.executar(self, inimigo)
+        sucesso = self.habilidade.executar(self, inimigo)
         if sucesso:
-            print(f"\nVocê usou a habilidade {habilidade.nome} causando {habilidade.dano} de dano!")
+            print(f"\nVocê usou a habilidade {self.habilidade.nome} causando {self.habilidade.dano} de dano!")
+            return True
+
         else:
             print("\nMana insuficiente para usar a habilidade.")
+            return False
+        
     
     def receber_dano(self, dano):
         print("\nVocê foi atingido!")
@@ -129,12 +132,17 @@ class Jogador(Personagem):
             
             if self.arma_escolhida:
                 print(f"Arma equipada: {self.arma_escolhida.nome} (Dano: {self.arma_escolhida.dano})")
+            
+            if self.habilidade:
+                print(f"Habilidade especial: {self.habilidade.nome} (Dano: {self.habilidade.dano}, Custo de Mana: {self.habilidade.custo_mana})")
+
+            
 
             opcoes = []
             for item in self.inventario:
                 opcoes.append(questionary.Choice(item.nome, value=item))
-            
-            opcoes.append(questionary.Choice("Voltar", value="voltar"))
+
+            # opcoes.append(questionary.Choice("Voltar", value="voltar"))
 
             escolha = questionary.select(
                 "Escolha um item para usar ou 'Voltar' para sair:",
@@ -145,11 +153,7 @@ class Jogador(Personagem):
                 break
             
             item = escolha
-            if isinstance(item, Pocao):
-                item.usar(self)
-                self.inventario.remove(item)
-            elif isinstance(item, Arma):
-                item.usar(self)
+            item.usar(self)
             
             questionary.text("\nPressione Enter para continuar...").ask()
     
