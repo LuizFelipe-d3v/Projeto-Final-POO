@@ -4,13 +4,16 @@ from .personagens import Inimigo
 from classes.batalha import Batalha
 import questionary
 
-
 class Historia:
+    """
+    Controla o fluxo narrativo do jogo, apresentando textos e capturando escolhas.
+    """
     def __init__(self, jogador, gerenciador_save=None):
         self.jogador = jogador
         self.save = gerenciador_save
 
-    def digitar(self, texto, velocidade=0.000000000000001):
+    def digitar(self, texto, velocidade=0.00000000000002):
+        """Imprime o texto caractere por caractere para criar um efeito de digitação."""
         for letra in texto:
             print(letra, end='', flush=True)
             if letra == "\n":
@@ -50,9 +53,11 @@ class Historia:
         escolherTunel = questionary.select(
             "Qual será o seu próximo passo?",
             choices=[
-                "1",
-                "2"
-            ]).ask()
+                questionary.Choice("1 - Túnel da esquerda", value="1"),
+                questionary.Choice("2 - Túnel da direita", value="2")
+            ],
+            qmark=""
+        ).ask()
 
 
         self.digitar("...", 1)
@@ -120,9 +125,15 @@ class Historia:
         os.system('cls' if os.name == 'nt' else 'clear')
 
         self.digitar("Após derrotar o kobold e recuperar o fôlego, você percebe dois túneis ao fundo da sala..." \
-        "\nUm segue para a esquerda, o outro para a direita..." \
-        "\n 1 - Túnel da esquerda  2 - Túnel da direita")
-        escolherTunel = input("\n\nQual será o seu próximo passo? ")
+        "\nUm segue para a esquerda, o outro para a direita...")
+        escolherTunel = questionary.select(
+            "Qual será o seu próximo passo?",
+            choices=[
+                questionary.Choice("1 - Túnel da esquerda", value="1"),
+                questionary.Choice("2 - Túnel da direita", value="2"),
+            ],
+            qmark=""    
+        ).ask()
         self.digitar("...", 1)
         time.sleep(0.8)
 
@@ -168,7 +179,7 @@ class Historia:
 
         
     def iniciarHistoria(self):
-
+        """Ponto de entrada que decide de onde a narrativa deve começar com base no save."""
         ponto = self.jogador.progresso_historia
 
         if ponto == "inicio":
@@ -180,10 +191,15 @@ class Historia:
             self.digitar("\nVocê desperta com a cabeça latejando em uma caverna úmida e parcialmente iluminada..." \
             "\nO silêncio é quebrado apenas pelo eco distante de gotas caindo..." \
             "\nÀ sua esquerda, uma porta antiga e desgastada parece guardar segredos esquecidos..." \
-            "\nÀ sua direita, uma passagem estreita se estende pela escuridão, convidando — ou ameaçando — quem ousar seguir adiante..." \
-            "\n\n1 - Porta Antiga  2 - Passagem Estreita")
-            time.sleep(1)
-            escolherPassagem = input("\n\nQual será o seu próximo passo? ")    
+            "\nÀ sua direita, uma passagem estreita se estende pela escuridão, convidando — ou ameaçando — quem ousar seguir adiante...")
+            escolherPassagem = questionary.select(
+                "Qual será o seu próximo passo?",
+                choices=[
+                    questionary.Choice("1 - Porta Antiga", value="1"),
+                    questionary.Choice("2 - Passagem Estreita", value="2"),
+                ],
+                qmark=""
+            ).ask()
             print()    
             self.digitar("...", 1)
             time.sleep(0.8)
@@ -192,15 +208,6 @@ class Historia:
                     self._escolherPortaAntiga()
                 case "2": 
                     self._escolherCaminhoEstreito()
-                case _:
-                    while True:
-                        comando = input("\nEscolha uma alternativa válida: ")
-                        if comando == "1" or comando == "2":
-                            if comando == "1":
-                                self._escolherPortaAntiga()
-                            else:
-                                self._escolherCaminhoEstreito()
-                            break
 
         elif ponto == "escolha_tunel_porta":
             self._escolherPortaAntiga(pular_batalha=True)

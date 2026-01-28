@@ -1,12 +1,16 @@
 from abc import ABC
+# Interface base para todos os itens coletáveis e usáveis do RPG.
 class IItem(ABC):
+    """Interface base para definição de comportamentos de itens."""
     def __init__(self, nome):
         self.nome = nome    
     
     def usar(self, usuario):
         pass
 
+# Itens do tipo armamento que modificam o potencial de dano do jogador.
 class Arma(IItem):
+    """Item do tipo arma que aumenta o dano do portador."""
     def __init__(self, nome, dano):
         super().__init__(nome)
         self.__dano = dano
@@ -21,7 +25,9 @@ class Arma(IItem):
         print(f"{usuario.__class__.__name__} equipou a arma: {self.nome}")
 
 
+# Consumíveis que restauram estados vitais como Vida e Mana.
 class Pocao(IItem):
+    """Consumível utilizado para restaurar atributos como Vida ou Mana."""
     def __init__(self, nome, valor_recuperacao, tipo):
         super().__init__(nome)
         self.__valor_recuperacao = valor_recuperacao

@@ -1,32 +1,38 @@
-# Inicio do projeto 
+# Ponto de entrada do jogo. Responsável por inicializar o sistema de saves,
+# permitir a criação de novos personagens ou carregar progresso existente.
 import os
 import questionary
 from classes.itens import Arma, Pocao
-from classes.personagens import Jogador
+from classes.personagens import Jogador # Classe que define os atributos e métodos do player
 from classes.historia import Historia
-from gerenciar_save import Gerenciar_Save
+from classes.gerenciar_save import Gerenciar_Save
 from questionary import Choice
 
 
+# Inicializa o gerenciador de persistência de dados
 save = Gerenciar_Save()
 
 dados_salvos = save.carregar()
 escolha_inicial = "Novo jogo"
 
+# Fluxo de inicialização: Verifica se existe um save anterior para oferecer a opção de continuar
 if dados_salvos:
     escolha_inicial = questionary.select(
         "Dados salvos encontrados. O que você gostaria de fazer?",
         choices=[
             Choice("Continuar jogo salvo", value="continuar"),
             Choice("Novo jogo", value="novo_jogo"),
-        ]
+        ],
+        qmark=""
     ).ask()
 
+# Variável que armazenará a instância do jogador atual
 personagem_escolhido = None
 
-
+# Lógica para restaurar o estado do jogador a partir do dicionário de dados salvos
 if escolha_inicial == "continuar":
     itens = []
+    # Reconstrói os objetos de itens (Arma/Poção) a partir dos dados serializados
     for i in dados_salvos["inventario"]:
         if i["tipo"] == "arma":
             itens.append(Arma(i["nome"], i["dano"]))
@@ -44,6 +50,7 @@ if escolha_inicial == "continuar":
         dados_salvos["progresso_historia"]
     )
     
+    # Define a habilidade inicial baseada na classe carregada
     if dados_salvos["classe"] == "Mago":
         personagem_escolhido.habilidade = {"nome": "bola de fogo", "descricao": "uma grande bola de fogo", "dano": 25, "custo_mana": 10}
 
@@ -59,6 +66,7 @@ if escolha_inicial == "continuar":
     elif dados_salvos["classe"] == "Bárbaro":
         personagem_escolhido.habilidade = {"nome": "Fúria do Berserker", "descricao": "um ataque poderoso que aumenta o dano", "dano": 999, "custo_mana": 0}
         
+    # Restaura a arma que estava em uso pelo jogador
     if dados_salvos["arma_equipada"]:
         personagem_escolhido.arma_escolhida = Arma(dados_salvos["arma_equipada"]["nome"], dados_salvos["arma_equipada"]["dano"])
     
@@ -74,7 +82,8 @@ else:
             Choice("🛡️  Tank", value="3"),
             Choice("⚔️  Paladino", value="4"),
             Choice("🔥  Bárbaro", value="5"),
-        ]
+        ],
+        qmark=""
     ).ask()
 
 
@@ -99,7 +108,7 @@ match classe:
         pocao_vida = Pocao("Poção de Vida", 30, "vida")
         pocao_mana = Pocao("Poção de Mana", 20, "mana")
         habilidades_mago = {"nome": "bola de fogo", "descricao": "uma grande bola de fogo", "dano": 25, "custo_mana": 10}
-        #trocar para iventario
+        
         inventario = [Varinha, Cajado, pocao_vida, pocao_mana]
         personagem_escolhido = Jogador("Mago", 100, inventario, 15, None, habilidades_mago, 50)
         personagem_escolhido.apresentar()   
@@ -114,7 +123,7 @@ match classe:
         pocao_vida = Pocao("Poção de Vida", 30, "vida")
         pocao_mana = Pocao("Poção de Mana", 10, "mana")
         habilidade_assasino = {"nome": "ataque furtivo", "descricao": "um ataque mortal vindo das sombras", "dano": 35, "custo_mana": 5}
-        #trocar para iventario
+     
         inventario = [Adagas, Rapiera, pocao_vida, pocao_mana]
         personagem_escolhido = Jogador("Assassino", 120, inventario, 16, None, habilidade_assasino, 20)
         personagem_escolhido.apresentar()
@@ -127,7 +136,7 @@ match classe:
         pocao_vida = Pocao("Poção de Vida", 50, "vida")
         pocao_mana = Pocao("Poção de Mana", 10, "mana")
         habilidade_tank = {"nome": "Impacto do Guardião", "descricao": "avança com o escudo erguido", "dano": 24, "custo_mana": 5}
-        #trocar para iventario
+       
         inventario = [Manoplas, Escudo, pocao_vida, pocao_mana]
         personagem_escolhido = Jogador("Tank", 150, inventario, 18, None, habilidade_tank, 20)
         personagem_escolhido.apresentar()
@@ -140,7 +149,7 @@ match classe:
         pocao_vida = Pocao("Poção de Vida", 40, "vida")
         pocao_mana = Pocao("Poção de Mana", 16, "mana")
         habilidade_paladino = {"nome": "Golpe Sagrado", "descricao": "um ataque abençoado que causa dano extra", "dano": 36, "custo_mana": 8}
-        #trocar para iventario
+    
         inventario = [Espada_Longa, Alabarda, pocao_vida, pocao_mana]
         personagem_escolhido = Jogador("Paladino", 120, inventario, 17, None, habilidade_paladino, 20)
         personagem_escolhido.apresentar()
@@ -153,7 +162,7 @@ match classe:
         pocao_vida = Pocao("Poção de Vida", 40, "vida")
         pocao_mana = Pocao("Poção de Mana", 12, "mana")
         habilidade_barbaro = {"nome": "Fúria do Berserker", "descricao": "um ataque poderoso que aumenta o dano", "dano": 999, "custo_mana": 0}
-        #trocar para iventario
+        
         inventario = [Machado, Lanca, pocao_vida, pocao_mana]
         personagem_escolhido = Jogador("Bárbaro", 99999, inventario, 21, None, habilidade_barbaro, 999)
         personagem_escolhido.apresentar()

@@ -2,7 +2,13 @@ import os
 from abc import ABC, abstractmethod
 import questionary
 
+# Define a estrutura básica de personagens (Abstrata), garantindo que
+# tanto jogadores quanto inimigos possuam atributos de sobrevivência.
 class Personagem(ABC):
+    """
+    Classe abstrata que serve como base para todos os seres do jogo.
+    Define os atributos básicos de saúde e defesa.
+    """
     def __init__(self, vida=None, defesa=None):
         self.__vida = vida
         self.__defesa = defesa
@@ -32,6 +38,10 @@ class Personagem(ABC):
         return self.__vida > 0
     
     def receber_dano(self, dano):
+        """
+        Reduz a vida do personagem com base no dano recebido.
+        Garante que a vida não fique negativa.
+        """
         self.__vida -= dano
         if self.__vida < 0:
             self.__vida = 0
@@ -41,7 +51,13 @@ class Personagem(ABC):
     def atacar(self, alvo, dano):
         pass
 
+# Especialização de Personagem focada no controle do usuário,
+# incluindo gerenciamento de inventário, mana e progresso narrativo.
 class Jogador(Personagem):
+    """
+    Representa o personagem controlado pelo usuário.
+    Gerencia inventário, mana, habilidades e progresso na história.
+    """
     def __init__(self, classe=None, vida=None, inventario=[], defesa=None, arma_escolhida=None, dados_habilidades=None, mana=None, progresso_historia= "inicio"):
         super().__init__(vida, defesa)
         self.__mana = mana
@@ -90,7 +106,7 @@ class Jogador(Personagem):
         print(f"Vida: {self.vida}\n")
         print(f"Defesa: {self.defesa}\n")
         print(f"Mana: {self.mana}\n")
-        questionary.text("ESTÁ PRONTO PARA ESCOLHER SEU EQUIPAMENTO? (aperte Enter para seguir)").ask()
+        questionary.text("\nESTÁ PRONTO PARA ESCOLHER SEU EQUIPAMENTO? (aperte Enter para seguir)",qmark="").ask()
         os.system('cls' if os.name == 'nt' else 'clear')
         
     def usar_habilidade(self, inimigo):
@@ -135,8 +151,10 @@ class Jogador(Personagem):
             opcoes.append(questionary.Choice("🔙 Voltar", value="voltar"))
 
             escolha = questionary.select(
-                "Escolha um item para usar ou 'Voltar' para sair:",
-                choices=opcoes
+                "\nEscolha um item para usar ou 'Voltar' para sair:",
+                choices=opcoes,
+                qmark=""
+   
             ).ask()
 
             if escolha == "voltar" or escolha is None:
@@ -145,10 +163,14 @@ class Jogador(Personagem):
             item = escolha
             item.usar(self)
             
-            questionary.text("\nPressione Enter para continuar...").ask()
+            questionary.text("\nPressione Enter para continuar...",qmark="").ask()
             return True
 
+# Representa os oponentes do jogo, com comportamentos de ataque básicos.
 class Inimigo(Personagem):
+    """
+    Representa criaturas hostis que o jogador enfrenta durante a aventura.
+    """
     def __init__(self, vida=None, defesa=None, dano=None, nome=None):
         super().__init__(vida, defesa)
         self.dano = dano
@@ -162,10 +184,14 @@ class Inimigo(Personagem):
         print(f"O inimigo {self.nome} foi atingido!")
         super().receber_dano(dano)
     
-    def atacar(self, alvo, dano): # Implementando o método abstrato
+    def atacar(self, alvo, dano):
         alvo.receber_dano(dano)
 
+# Define ações especiais que consomem mana e causam dano extra.
 class Habilidade:
+    """
+    Define um ataque especial que consome mana.
+    """
     def __init__(self, nome: str, descricao: str, dano: int, custo_mana: int):
         self.nome = nome
         self.descricao = descricao

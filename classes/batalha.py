@@ -4,12 +4,18 @@ import os
 from classes.personagens import Jogador, Inimigo
 import questionary
 
+# Gerencia o fluxo lógico de um confronto por turnos entre Jogador e Inimigo.
 class Batalha:
+    """
+    Classe responsável por mediar o combate por turnos entre o Jogador e um Inimigo.
+    """
     def __init__(self, jogador, inimigo):
         self.jogador = jogador
         self.inimigo = inimigo
 
+    # Função principal do combate (loop de turnos)
     def combate(self):
+        """Executa o loop principal de combate até que alguém seja derrotado."""
         os.system('cls' if os.name == 'nt' else 'clear')
         print("\n-------- PREPARE-SE A BATALHA IRÁ COMEÇAR! --------")
         time.sleep(1)
@@ -27,7 +33,8 @@ class Batalha:
                     "Atacar",
                     "Usar Habilidade Especial",
                     "Abrir Inventário",
-                ]
+                ],
+                qmark=""
             ).ask()
 
             if escolha == "Atacar":
@@ -57,6 +64,7 @@ class Batalha:
         print("\n-------- FIM DA BATALHA --------")
             
     def turno_jogador_ataque(self):
+        """Executa a lógica de ataque físico do jogador, incluindo rolagem de dados e acerto crítico."""
         print("\n ROLANDO DADOS DE ATAQUE...")
         time.sleep(0.8)
         dado = random.randint(1, 20)
@@ -75,10 +83,11 @@ class Batalha:
         
         time.sleep(1.5)
 
-        questionary.text("\nPressione Enter para continuar...").ask()
+        questionary.text("\nPressione Enter para continuar...",qmark="").ask()
 
 
     def turno_jogador_habilidade(self):
+        """Gerencia a escolha e execução de habilidades especiais durante o combate."""
         if not self.jogador.habilidade:
             print(" Você não possui uma habilidade especial para usar!")
             time.sleep(1.5)
@@ -102,9 +111,10 @@ class Batalha:
                 return False
         return False 
 
-        questionary.text("\nPressione Enter para continuar...").ask()
+        questionary.text("\nPressione Enter para continuar...",qmark="").ask()
 
     def turno_inimigo(self):
+        """Executa o turno do inimigo, calculando o ataque contra o jogador."""
         print(f"\n TURNO DO {self.inimigo.nome}...")
         time.sleep(1)
         dado = random.randint(1, 20)
@@ -117,5 +127,5 @@ class Batalha:
         
         time.sleep(1.5)
 
-        questionary.text("\nPressione Enter para continuar...").ask()
+        questionary.text("\nPressione Enter para continuar...",qmark="").ask()
 
