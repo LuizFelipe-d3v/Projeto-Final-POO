@@ -1,0 +1,35 @@
+{
+    "classe": "B\u00e1rbaro",
+    "vida": 99999,
+    "mana": 999,
+    "defesa": 21,
+    "progresso_historia": "escolha_tunel_porta",
+    "inventario": [
+        {
+            "nome": "Machado",
+            "tipo": "arma",
+            "dano": 999
+        },
+        {
+            "nome": "Lan\u00e7a",
+            "tipo": "arma",
+            "dano": 999
+        },
+        {
+            "nome": "Po\u00e7\u00e3o de Vida",
+            "tipo": "pocao",
+            "valor": 40,
+            "subtipo": "vida"
+        },
+        {
+            "nome": "Po\u00e7\u00e3o de Mana",
+            "tipo": "pocao",
+            "valor": 12,
+            "subtipo": "mana"
+        }
+    ],
+    "arma_equipada": {
+        "nome": "Machado",
+        "dano": 999
+    }
+}

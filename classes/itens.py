@@ -10,6 +10,7 @@ class Arma(IItem):
     def __init__(self, nome, dano):
         super().__init__(nome)
         self.__dano = dano
+        self.categoria = "arma"
 
     @property
     def dano(self):
@@ -25,6 +26,7 @@ class Pocao(IItem):
         super().__init__(nome)
         self.__valor_recuperacao = valor_recuperacao
         self.tipo = tipo
+        self.categoria = "pocao"
     
     @property
     def valor_recuperacao(self):

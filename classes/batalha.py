@@ -56,9 +56,6 @@ class Batalha:
 
         print("\n-------- FIM DA BATALHA --------")
             
-
-
-    
     def turno_jogador_ataque(self):
         print("\n ROLANDO DADOS DE ATAQUE...")
         time.sleep(0.8)

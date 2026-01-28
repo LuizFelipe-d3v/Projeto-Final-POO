@@ -35,14 +35,14 @@ class Personagem(ABC):
         self.__vida -= dano
         if self.__vida < 0:
             self.__vida = 0
-        print(f"Vida restante: {self.vida}")
+        print(f"\nVida restante: {self.vida}\n")
     
     @abstractmethod
     def atacar(self, alvo, dano):
         pass
 
 class Jogador(Personagem):
-    def __init__(self, classe=None, vida=None, inventario=[], defesa=None, arma_escolhida=None, dados_habilidades=None, mana=None):
+    def __init__(self, classe=None, vida=None, inventario=[], defesa=None, arma_escolhida=None, dados_habilidades=None, mana=None, progresso_historia= "inicio"):
         super().__init__(vida, defesa)
         self.__mana = mana
         self.__mana_maxima = mana
@@ -50,6 +50,7 @@ class Jogador(Personagem):
         self.arma_escolhida = arma_escolhida
         self.inventario = inventario
         self.habilidade = None
+        self.progresso_historia = progresso_historia
         if dados_habilidades:
             self.habilidade = Habilidade(
                 dados_habilidades['nome'],
@@ -86,8 +87,9 @@ class Jogador(Personagem):
 
     def apresentar(self):
         print("\n------------STATUS------------")
-        print(f"Vida: {self.vida}")
-        print(f"Defesa: {self.defesa}")
+        print(f"Vida: {self.vida}\n")
+        print(f"Defesa: {self.defesa}\n")
+        print(f"Mana: {self.mana}\n")
         questionary.text("ESTÁ PRONTO PARA ESCOLHER SEU EQUIPAMENTO? (aperte Enter para seguir)").ask()
         os.system('cls' if os.name == 'nt' else 'clear')
         
@@ -111,10 +113,6 @@ class Jogador(Personagem):
     def atacar(self, alvo):
         dano = self.arma_escolhida.dano
         super().atacar(alvo, dano)
-
-    def guardar_item(self, item):
-        self.inventario.append(item)
-        print(f"\nVocê guardou {item.nome} no inventário.")
 
     def mostrar_inventario(self):
         while True:
