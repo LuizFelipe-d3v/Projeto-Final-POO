@@ -110,10 +110,7 @@ class Jogador(Personagem):
         os.system('cls' if os.name == 'nt' else 'clear')
         
     def usar_habilidade(self, inimigo):
-        if not self.habilidade:
-            print("\nVocê não possui nenhuma habilidade especial.")
-            return False
-
+        
         sucesso = self.habilidade.executar(self, inimigo)
         if sucesso:
             print(f"\nVocê usou a habilidade {self.habilidade.nome} causando {self.habilidade.dano} de dano!")
@@ -135,14 +132,11 @@ class Jogador(Personagem):
             os.system('cls' if os.name == 'nt' else 'clear')
             print("\n------------INVENTÁRIO------------")
             print(f"Vida: {self.vida}/{self.vida_maxima}")
-            if hasattr(self, 'mana'):
-                print(f"Mana: {self.mana}/{self.mana_maxima}")
-            
+            print(f"Mana: {self.mana}/{self.mana_maxima}")
+            print(f"Habilidade especial: {self.habilidade.nome} (Dano: {self.habilidade.dano}, Custo de Mana: {self.habilidade.custo_mana})\n")
+
             if self.arma_escolhida:
                 print(f"Arma equipada: {self.arma_escolhida.nome} (Dano: {self.arma_escolhida.dano})")
-            
-            if self.habilidade:
-                print(f"Habilidade especial: {self.habilidade.nome} (Dano: {self.habilidade.dano}, Custo de Mana: {self.habilidade.custo_mana})")
 
             opcoes = []
             for item in self.inventario:
@@ -198,7 +192,7 @@ class Habilidade:
         self.dano = dano
         self.custo_mana = custo_mana
 
-    def pode_usar(self, jogador) -> bool:
+    def pode_usar(self, jogador):
         return jogador.mana >= self.custo_mana
 
     def executar(self, jogador, inimigo):

@@ -3,7 +3,7 @@
 import os
 import questionary
 from classes.itens import Arma, Pocao
-from classes.personagens import Jogador # Classe que define os atributos e métodos do player
+from classes.personagens import Jogador
 from classes.historia import Historia
 from classes.gerenciar_save import Gerenciar_Save
 from questionary import Choice
@@ -85,8 +85,6 @@ else:
         ],
         qmark=""
     ).ask()
-
-
 
 
 if classe is None:
