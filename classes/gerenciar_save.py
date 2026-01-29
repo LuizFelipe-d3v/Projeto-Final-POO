@@ -34,7 +34,6 @@ class Gerenciar_Save:
 
             dados['inventario'].append(dados_do_item)
 
-        # Serialização da arma atualmente equipada
         arma_na_mao = jogador.arma_escolhida
         if arma_na_mao != None:
             dados['arma_equipada'] = {
@@ -44,7 +43,7 @@ class Gerenciar_Save:
         else:
             dados['arma_equipada'] = None
 
-        # Escrita física no arquivo de saída
+
         texto_json = json.dumps(dados, indent=4)
         arquivo_aberto = open(self.nome_arquivo, 'w')
         arquivo_aberto.write(texto_json)
@@ -62,10 +61,10 @@ class Gerenciar_Save:
             dados_convertidos = json.loads(conteudo_do_texto)
             return dados_convertidos
         except FileNotFoundError:
-            # Caso o arquivo não exista, retorna None para indicar que é um novo jogo
+            
             return None
         except Exception as e:
-            # Captura erros inesperados na leitura/parsing do JSON
+            
             print(f"Erro ao carregar o save: {e}")
             return None
 

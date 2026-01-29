@@ -2,66 +2,54 @@ import os
 from abc import ABC, abstractmethod
 import questionary
 
-# Define a estrutura básica de personagens (Abstrata), garantindo que
-# tanto jogadores quanto inimigos possuam atributos de sobrevivência.
 class Personagem(ABC):
     """
-    Classe abstrata que serve como base para todos os seres do jogo.
-    Define os atributos básicos de saúde e defesa.
+    Classe abstrata que serve como base para jogadores e inimigos do jogo.
+    Define os atributos básicos de vida e defesa.
     """
     def __init__(self, vida=None, defesa=None):
-        self.__vida = vida
-        self.__defesa = defesa
-        self.__vida_maxima = vida    
+        self._vida = vida          
+        self._defesa = defesa      
+        self._vida_maxima = vida   
     
     @property
     def vida_maxima(self):
-        return self.__vida_maxima
+        return self._vida_maxima
 
     @property
     def vida(self):
-        return self.__vida
+        return self._vida
     
     @vida.setter
     def vida(self, valor):
-        self.__vida = valor
-        if self.__vida < 0:
-            self.__vida = 0
-        if self.__vida > self.__vida_maxima:
-            self.__vida = self.__vida_maxima
+        self._vida = valor
+        if self._vida < 0:
+            self._vida = 0
+        if self._vida > self._vida_maxima:
+            self._vida = self._vida_maxima
 
     @property
     def defesa(self):
-        return self.__defesa
+        return self._defesa
 
     def estar_vivo(self):
-        return self.__vida > 0
+        return self._vida > 0
     
     def receber_dano(self, dano):
-        """
-        Reduz a vida do personagem com base no dano recebido.
-        Garante que a vida não fique negativa.
-        """
-        self.__vida -= dano
-        if self.__vida < 0:
-            self.__vida = 0
+        self._vida -= dano
+        if self._vida < 0:
+            self._vida = 0
         print(f"\nVida restante: {self.vida}\n")
     
     @abstractmethod
     def atacar(self, alvo, dano):
         pass
 
-# Especialização de Personagem focada no controle do usuário,
-# incluindo gerenciamento de inventário, mana e progresso narrativo.
 class Jogador(Personagem):
-    """
-    Representa o personagem controlado pelo usuário.
-    Gerencia inventário, mana, habilidades e progresso na história.
-    """
-    def __init__(self, classe=None, vida=None, inventario=[], defesa=None, arma_escolhida=None, dados_habilidades=None, mana=None, progresso_historia= "inicio"):
+    def __init__(self, classe=None, vida=None, inventario=[], defesa=None, arma_escolhida=None, dados_habilidades=None, mana=None, progresso_historia="inicio"):
         super().__init__(vida, defesa)
-        self.__mana = mana
-        self.__mana_maxima = mana
+        self._mana = mana                
+        self._mana_maxima = mana         
         self.classe = classe
         self.arma_escolhida = arma_escolhida
         self.inventario = inventario
@@ -77,29 +65,32 @@ class Jogador(Personagem):
 
     @property
     def vida(self):
-        return super().vida
+        return self._vida
 
     @vida.setter
     def vida(self, valor):
-        Personagem.vida.fset(self, valor)
+        self._vida = valor
+        if self._vida < 0: self._vida = 0
+        if self._vida > self._vida_maxima: self._vida = self._vida_maxima
+        
         if not self.estar_vivo():
             self.habilidade = None
 
     @property
     def mana_maxima(self):
-        return self.__mana_maxima
+        return self._mana_maxima
 
     @property
     def mana(self):
-        return self.__mana
+        return self._mana
 
     @mana.setter
     def mana(self, valor):
-        self.__mana = valor
-        if self.__mana < 0:
-            self.__mana = 0
-        if self.__mana > self.__mana_maxima:
-            self.__mana = self.__mana_maxima
+        self._mana = valor
+        if self._mana < 0:
+            self._mana = 0
+        if self._mana > self._mana_maxima:
+            self._mana = self._mana_maxima
 
     def apresentar(self):
         print("\n------------STATUS------------")
@@ -160,7 +151,6 @@ class Jogador(Personagem):
             questionary.text("\nPressione Enter para continuar...",qmark="").ask()
             return True
 
-# Representa os oponentes do jogo, com comportamentos de ataque básicos.
 class Inimigo(Personagem):
     """
     Representa criaturas hostis que o jogador enfrenta durante a aventura.
@@ -178,10 +168,7 @@ class Inimigo(Personagem):
         print(f"O inimigo {self.nome} foi atingido!")
         super().receber_dano(dano)
     
-    def atacar(self, alvo, dano):
-        alvo.receber_dano(dano)
 
-# Define ações especiais que consomem mana e causam dano extra.
 class Habilidade:
     """
     Define um ataque especial que consome mana.

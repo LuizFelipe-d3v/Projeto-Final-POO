@@ -1,5 +1,3 @@
-# Ponto de entrada do jogo. Responsável por inicializar o sistema de saves,
-# permitir a criação de novos personagens ou carregar progresso existente.
 import os
 import questionary
 from classes.itens import Arma, Pocao
@@ -9,13 +7,11 @@ from classes.gerenciar_save import Gerenciar_Save
 from questionary import Choice
 
 
-# Inicializa o gerenciador de persistência de dados
 save = Gerenciar_Save()
 
 dados_salvos = save.carregar()
 escolha_inicial = "Novo jogo"
 
-# Fluxo de inicialização: Verifica se existe um save anterior para oferecer a opção de continuar
 if dados_salvos:
     escolha_inicial = questionary.select(
         "Dados salvos encontrados. O que você gostaria de fazer?",
@@ -26,13 +22,10 @@ if dados_salvos:
         qmark=""
     ).ask()
 
-# Variável que armazenará a instância do jogador atual
 personagem_escolhido = None
 
-# Lógica para restaurar o estado do jogador a partir do dicionário de dados salvos
 if escolha_inicial == "continuar":
     itens = []
-    # Reconstrói os objetos de itens (Arma/Poção) a partir dos dados serializados
     for i in dados_salvos["inventario"]:
         if i["tipo"] == "arma":
             itens.append(Arma(i["nome"], i["dano"]))
@@ -50,7 +43,6 @@ if escolha_inicial == "continuar":
         dados_salvos["progresso_historia"]
     )
     
-    # Define a habilidade inicial baseada na classe carregada
     if dados_salvos["classe"] == "Mago":
         personagem_escolhido.habilidade = {"nome": "bola de fogo", "descricao": "uma grande bola de fogo", "dano": 25, "custo_mana": 10}
 
@@ -66,7 +58,6 @@ if escolha_inicial == "continuar":
     elif dados_salvos["classe"] == "Bárbaro":
         personagem_escolhido.habilidade = {"nome": "Fúria do Berserker", "descricao": "um ataque poderoso que aumenta o dano", "dano": 999, "custo_mana": 0}
         
-    # Restaura a arma que estava em uso pelo jogador
     if dados_salvos["arma_equipada"]:
         personagem_escolhido.arma_escolhida = Arma(dados_salvos["arma_equipada"]["nome"], dados_salvos["arma_equipada"]["dano"])
     

@@ -86,7 +86,7 @@ class Batalha:
 
 
     def turno_jogador_habilidade(self):
-        """Gerencia a escolha e execução de habilidades especiais durante o combate."""
+        """Gerencia a execução de habilidades especiais durante o combate."""
         
         habilidade = self.jogador.habilidade
         print(f"\nDeseja usar {habilidade.nome}?")
