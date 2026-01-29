@@ -3,8 +3,6 @@ import random
 import os
 from classes.personagens import Jogador, Inimigo
 import questionary
-
-# Gerencia o fluxo lógico de um confronto por turnos entre Jogador e Inimigo.
 class Batalha:
     """
     Classe responsável por mediar o combate por turnos entre o Jogador e um Inimigo.
