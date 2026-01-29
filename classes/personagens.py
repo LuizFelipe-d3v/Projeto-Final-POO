@@ -103,9 +103,9 @@ class Jogador(Personagem):
 
     def apresentar(self):
         print("\n------------STATUS------------")
-        print(f"Vida: {self.vida}\n")
-        print(f"Defesa: {self.defesa}\n")
-        print(f"Mana: {self.mana}\n")
+        print(f"Vida: {self.vida}/{self.vida_maxima}")
+        print(f"Defesa: {self.defesa}")
+        print(f"Mana: {self.mana}/{self.mana_maxima}\n")
         questionary.text("\nESTÁ PRONTO PARA ESCOLHER SEU EQUIPAMENTO? (aperte Enter para seguir)",qmark="").ask()
         os.system('cls' if os.name == 'nt' else 'clear')
         

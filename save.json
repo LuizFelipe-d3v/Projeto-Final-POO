@@ -1,9 +1,9 @@
 {
     "classe": "Mago",
     "vida": 100,
-    "mana": 50,
+    "mana": 40,
     "defesa": 15,
-    "progresso_historia": "inicio",
+    "progresso_historia": "escolha_tunel_porta",
     "inventario": [
         {
             "nome": "Varinha",
@@ -29,7 +29,7 @@
         }
     ],
     "arma_equipada": {
-        "nome": "Varinha",
-        "dano": 12
+        "nome": "Cajado",
+        "dano": 16
     }
 }

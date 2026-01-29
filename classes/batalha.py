@@ -93,7 +93,7 @@ class Batalha:
         print(f"Descrição: {habilidade.descricao}")
         print(f"Dano: {habilidade.dano} | ✨ Custo: {habilidade.custo_mana} mana")
 
-        confirmar = questionary.confirm(f"Confirmar uso de {habilidade.nome}?").ask()
+        confirmar = questionary.confirm(f"Confirmar uso de {habilidade.nome}?", qmark="").ask()
         
         if confirmar:
             if self.jogador.habilidade.pode_usar(self.jogador):
