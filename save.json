@@ -29,7 +29,7 @@
         }
     ],
     "arma_equipada": {
-        "nome": "Cajado",
-        "dano": 16
+        "nome": "Varinha",
+        "dano": 12
     }
 }

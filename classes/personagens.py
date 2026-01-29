@@ -116,7 +116,7 @@ class Jogador(Personagem):
     
     def atacar(self, alvo):
         dano = self.arma_escolhida.dano
-        super().atacar(alvo, dano)
+        alvo.receber_dano(dano)
 
     def mostrar_inventario(self):
         while True:
